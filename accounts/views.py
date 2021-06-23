@@ -1,9 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from accounts.forms import StudentRegistrationForm, AccountAuthenticationForm, TeacherRegistrationForm
+from .forms import StudentRegistrationForm, AccountAuthenticationForm, TeacherRegistrationForm
 
-
+#need to different login system !!!!
 def login_view(request):
     user = request.user
     context = {}
@@ -40,6 +40,7 @@ def signup_view(request):
             raw_password = form.cleaned_data.get('password1')
             account = authenticate(email=email, password=raw_password)
             login(request, account)
+            #should use return redirect('/student')
             return redirect('/accounts/home')
         else:
             context['registration_form'] = form
@@ -60,7 +61,7 @@ def teacher_signup_view(request):
             raw_password = form.cleaned_data.get('password1')
             account = authenticate(email=email, password=raw_password)
             login(request, account)
-            return redirect('/accounts/home')
+            return redirect('/teacher')
         else:
             context['registration_form'] = form
 

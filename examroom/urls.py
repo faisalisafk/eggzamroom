@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from accounts.views import home_view, login_view, signup_view, logout_view, teacher_signup_view
-from teacher.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

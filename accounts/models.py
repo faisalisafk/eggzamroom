@@ -71,6 +71,7 @@ class Student(models.Model):
     # course = models.ManyToManyField(Course, related_name='interested_students')
 
 
+
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     teacherID = models.IntegerField(unique=True, null=True)
