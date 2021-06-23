@@ -8,7 +8,7 @@ def login_view(request):
     user = request.user
     context = {}
     if user.is_authenticated:
-        return redirect('home')
+        return redirect('/teacher')
 
     if request.POST:
         form = AccountAuthenticationForm(request.POST)
@@ -18,7 +18,7 @@ def login_view(request):
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
-                return redirect('home')
+                return redirect('/teacher')
     else:
         form = AccountAuthenticationForm()
 
