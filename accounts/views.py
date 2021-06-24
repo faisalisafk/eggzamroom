@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .forms import StudentRegistrationForm, AccountAuthenticationForm, TeacherRegistrationForm
 
-#need to different login system !!!!
+
+# need to different login system !!!!
 def login_view(request):
     user = request.user
     context = {}
@@ -27,7 +28,12 @@ def login_view(request):
 
 
 def home_view(request):
-    return render(request, 'accounts/home.html')
+    user = request.user
+    # redirect to login page if the user isn't logged in
+    if not user.is_authenticated:
+        return redirect('login')
+    else:
+        return render(request, 'accounts/home.html')
 
 
 def signup_view(request):
@@ -40,7 +46,7 @@ def signup_view(request):
             raw_password = form.cleaned_data.get('password1')
             account = authenticate(email=email, password=raw_password)
             login(request, account)
-            #should use return redirect('/student')
+            # should use return redirect('/student')
             return redirect('/accounts/home')
         else:
             context['registration_form'] = form
