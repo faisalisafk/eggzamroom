@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Course</title>
-</head>
-<body>
-<h1> Teacher pk is: {{user_id}}</h1>
 
-</body>
-</html>
+
+    <h1> First Name: {{user.firstName.upper}}</h1>
+    <h1> Last Name: {{user.lastName.upper}}</h1>
+    <h1> Email: {{user.email.lower}}</h1>
+    {% if user.teacher %}
+        <h1> Hello Teacher</h1>
+    {% elif user.student %}
+        <h1> Hello Student</h1>
+    {% endif %}
+
+
