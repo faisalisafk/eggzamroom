@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <Title>Examroom</Title>
+     <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% include 'header.html' %}
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+
+<body>
+
+    <h1> First Name: {{user.firstName.upper}}</h1>
+    <h1> Last Name: {{user.lastName.upper}}</h1>
+    <h1> Email: {{user.email.lower}}</h1>
+    {% if user.teacher %}
+        <h1> Hello Teacher</h1>
+    {% elif user.student %}
+        <h1> Hello Student</h1>
+    {% endif %}
+
+    {% if not course%}
+    <div>
+        <h2> No courses man!!! Create some</h2>
+    </div>
+    {% else %}
+    <br>
+    <h1> Course List :</h1>
+        {%for c in course %}
+         <ul>
+             <li> Course Name : {{c.title}}</li>
+             <li> Course Code : {{c.courseCode}}</li>
+         </ul>
+        <br>
+        {% endfor %}
+    {% endif %}
+
+</body>
+
+
+
