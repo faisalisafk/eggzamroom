@@ -24,9 +24,9 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('teacher/', include('teacher.urls')),
     path('', home_view, name='accounts/home.html'),
-    path('home', home_view, name='home'),
-    path('login', login_view, name='login'),
-    path('signup', signup_view, name='signup'),
-    path('signup_teacher', teacher_signup_view, name='signup_teacher'),
+    path('home/', home_view, name='home'),
+    path('login/', login_view, name='login'),
+    path('signup/', signup_view, name='signup'),
+    path('signup_teacher/', teacher_signup_view, name='signup_teacher'),
     path('logout/', logout_view, name='logout'),
 ]

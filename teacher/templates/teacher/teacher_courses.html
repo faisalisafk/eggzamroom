@@ -23,6 +23,22 @@
         <h1> Hello Student</h1>
     {% endif %}
 
+    {% if not course%}
+    <div>
+        <h2> No courses man!!! Create some</h2>
+    </div>
+    {% else %}
+    <br>
+    <h1> Course List :</h1>
+        {%for c in course %}
+         <ul>
+             <li> Course Name : {{c.title}}</li>
+             <li> Course Code : {{c.courseCode}}</li>
+         </ul>
+        <br>
+        {% endfor %}
+    {% endif %}
+
 </body>
 
 

@@ -9,7 +9,9 @@ def login_view(request):
     user = request.user
     context = {}
     if user.is_authenticated:
-        return redirect('/teacher')
+        if user.is_teacher:
+            return redirect('/teacher')
+
 
     if request.POST:
         form = AccountAuthenticationForm(request.POST)
@@ -29,10 +31,13 @@ def login_view(request):
 
 def home_view(request):
     user = request.user
+
     # redirect to login page if the user isn't logged in
     if not user.is_authenticated:
+
         return redirect('login')
     else:
+
         return render(request, 'accounts/home.html')
 
 
