@@ -1,23 +1,31 @@
-from django.shortcuts import render
+import requests
+from django.shortcuts import render,redirect
 
 from django.apps import apps
-from accounts.models import User
+from accounts.models import User,Teacher
 from .models import Course
+from .forms import CourseForm
 
 def dashboard(request):
-    user = request.user
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = CourseForm(request.POST)
+            if form.is_valid():
+                title = form.cleaned_data['title']
+                subject = form.cleaned_data['subject']
+                teacher = Teacher.objects.get(pk = request.user.pk)
+                c = Course(title=title,subject=subject,teacher=teacher)
+                c.save()
+                return redirect('/teacher/')
 
-    if user.is_authenticated:
-        context = {'user_id': user.pk}
-
-
-        userDetails = User.objects.get(pk=user.pk)
-        courseList = Course.objects.filter(teacher=user.pk)
-
-
-        context = {'user': userDetails,
-                   'course': courseList,}
-        return render(request, 'teacher/teacher_courses.html', context)
+        else:
+            form = CourseForm()
+            userDetails = User.objects.get(pk=request.user.pk)
+            courseList = Course.objects.filter(teacher=request.user.pk)
+            context = {'user': userDetails,
+                       'course': courseList,
+                       'form': form }
+            return render(request, 'teacher/teacher_courses.html', context)
 
 def addCourse(request):
     pass

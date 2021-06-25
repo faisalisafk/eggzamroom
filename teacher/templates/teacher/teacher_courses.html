@@ -89,13 +89,10 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <!-- Maybe Custom form  -->
-        <form action="/teacher">
-
-            <label for="fname">Title:</label>
-            <input id="fname" name="fname" type="text"><br><br>
-            <label for="lname">Course:</label>
-            <input id="lname" name="lname" type="text"><br><br>
-            <input type="submit" value="Submit">
+        <form action="/teacher/" method="post">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="Create Course">
         </form>
     </div>
 
