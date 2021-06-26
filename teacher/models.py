@@ -4,7 +4,8 @@ from accounts.models import Teacher
 
 
 class Course(models.Model):
-    title = models.CharField(max_length=30)
+    title = models.CharField(max_length=30,null=False,blank=False)
+    subject = models.CharField(max_length=30,default=uuid.uuid4().hex[:5])
     teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
     courseCode = models.CharField(max_length=7, null=True, blank=True, unique=True)
     def save(self, *args, **kwargs):
