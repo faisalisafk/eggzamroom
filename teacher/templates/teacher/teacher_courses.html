@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <Title>Examroom</Title>
+    <Title>Teacher</Title>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     {% include 'header.html' %}
@@ -59,8 +59,6 @@
 <h1> Email: {{user.email.lower}}</h1>
 {% if user.teacher %}
 <h1> Hello Teacher</h1>
-{% elif user.student %}
-<h1> Hello Student</h1>
 {% endif %}
 
 {% if not course%}

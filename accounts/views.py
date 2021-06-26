@@ -10,36 +10,39 @@ def login_view(request):
     context = {}
     if user.is_authenticated:
         if user.is_teacher:
-            return redirect('/teacher')
-
-
-    if request.POST:
-        form = AccountAuthenticationForm(request.POST)
-        if form.is_valid():
-            email = request.POST['email']
-            password = request.POST['password']
-            user = authenticate(email=email, password=password)
-            if user:
-                login(request, user)
-                return redirect('/teacher')
+            return redirect('/teacher/')
+        else:
+            return redirect('/student/')
     else:
-        form = AccountAuthenticationForm()
-
-    context['login_form'] = form
-    return render(request, 'accounts/login.html', context)
+        if request.POST:
+            form = AccountAuthenticationForm(request.POST)
+            if form.is_valid():
+                email = request.POST['email']
+                password = request.POST['password']
+                user = authenticate(email=email, password=password)
+                if user:
+                    login(request, user)
+                    if user.is_teacher:
+                        return redirect('/teacher/')
+                    else:
+                        return redirect('/student/')
+                else:
+                    return redirect("/login/")
+        else:
+            form = AccountAuthenticationForm()
+            context['login_form'] = form
+            return render(request, 'accounts/login.html', context)
 
 
 def home_view(request):
     user = request.user
-
-    # redirect to login page if the user isn't logged in
     if not user.is_authenticated:
-
-        return redirect('login')
+        return redirect('/login/')
     else:
-
-        return render(request, 'accounts/home.html')
-
+        if user.is_teacher:
+            return redirect('/teacher/')
+        elif user.is_student:
+            return redirect('/student/')
 
 def signup_view(request):
     context = {}
@@ -51,8 +54,7 @@ def signup_view(request):
             raw_password = form.cleaned_data.get('password1')
             account = authenticate(email=email, password=raw_password)
             login(request, account)
-            # should use return redirect('/student')
-            return redirect('/accounts/home')
+            return redirect('/student/')
         else:
             context['registration_form'] = form
 
@@ -84,4 +86,4 @@ def teacher_signup_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('/login/')

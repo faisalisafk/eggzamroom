@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     # user defined app
     'accounts.apps.AccountsConfig',
     'teacher.apps.TeacherConfig',
+    'student.apps.StudentConfig',
 
 ]
 
