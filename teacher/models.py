@@ -16,7 +16,10 @@ class Course(models.Model):
                 self.courseCode = uuid.uuid4().hex[:7].upper()
         super(Course, self).save(*args, **kwargs)
 
-
-
-
+class Exam(models.Model):
+    title = models.CharField(max_length=30,null=False,blank=False)
+    description = models.CharField(max_length=50,null=False,blank=False)
+    startTime = models.DateTimeField().auto_created
+    endTime = models.DateTimeField().auto_created
+    course = models.ForeignKey(Course,on_delete=models.CASCADE)
 
