@@ -48,38 +48,60 @@
   cursor: pointer;
 }
 
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 34, 51, 0.1);
+    box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
+    border-radius: 0.15rem;
+}
+
+.card-header {
+    background-color: #ffffff;
+}
+
     </style>
 </head>
 
 
 <body>
-
-<h1> First Name: {{user.firstName.upper}}</h1>
-<h1> Last Name: {{user.lastName.upper}}</h1>
-<h1> Email: {{user.email.lower}}</h1>
 {% if user.teacher %}
-<h1> Hello Teacher</h1>
+<h3  style="margin-left: 25px;">Courses</h3>
 {% endif %}
 
+
+<section id="courses">
+    <div class="container">
 {% if not course%}
 <div>
     <h2> No courses man!!! Create some</h2>
 </div>
 {% else %}
-<br>
-<h1> Course List :</h1>
-{%for c in course %}
-<ul>
-    <a class="p-2 text-dark" href="/teacher/course/{{c.pk}}" }> Course title : {{c.title}}</a>
-    <li> Course subject : {{c.subject}} </li>
-    <li> Course Code : {{c.courseCode}}</li>
-    <li> primary key : {{c.pk}}</li>
+    <!--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
+    <div class="row">
 
-</ul>
-<br>
-{% endfor %}
-{% endif %}
+        {%for c in course %}
+        <div class="col-auto mb-4">
+            <div class="card" style="width: 20vw; height: 20hw;">
+                <div class="card-header bg-primary text-truncate text-light">
+                    <a class="card-title text-light" href="/teacher/course/{{c.pk}}" } style="font-weight: bold;
+                     font-size: 18px;">Course:{{c.title}}</a>
+                    <p class="card-subtitle mb-2 text-light" style="font-size: 14px;">Course Code : {{c.courseCode}}</p>
+                </div>
 
+              <div class="card-body">
+                  <p class="card-text text-primary">Course subject : {{c.subject}}</p>
+                  <p class="card-text text-primary">Course subject : {{c.teacher}}</p>
+                  <p class="card-text text-primary">primary key : {{c.pk}}</p>
+              </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+    </div>
+</section>
 
 <!-- The Modal -->
 <div class="modal" id="myModal">
@@ -93,10 +115,8 @@
             {{form}}
             <input type="submit" value="Create Course">
         </form>
-    </div>
-
+        </div>
 </div>
-
 
 <script>
 // Get the modal
