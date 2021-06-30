@@ -48,6 +48,18 @@
   cursor: pointer;
 }
 
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 34, 51, 0.1);
+    box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
+    border-radius: 0.15rem;
+}
+
+.card-header {
+    background-color: #ffffff;
+}
+
     </style>
 </head>
 
@@ -69,13 +81,19 @@
 <br>
 <h1> Course List :</h1>
 {%for c in course %}
-<ul>
-    <a class="p-2 text-dark" href="/teacher/course/{{c.pk}}" }> Course title : {{c.title}}</a>
-    <li> Course subject : {{c.subject}} </li>
-    <li> Course Code : {{c.courseCode}}</li>
-    <li> primary key : {{c.pk}}</li>
 
-</ul>
+    <div class="card" style="width: 25vw; height: 20hw;">
+        <div class="card-header">
+            <a class="p-2 text-dark" href="/teacher/course/{{c.pk}}" } style="font-weight: bold; font-size: 18px;"> Course title : {{c.title}}</a>
+            <p class="card-subtitle mb-3 text-muted" style="text-align: center">Course Code : {{c.courseCode}}</p>
+        </div>
+
+      <div class="card-body">
+          <p class="card-text text-primary">Course subject : {{c.subject}}</p>
+          <p class="card-text text-primary">Course subject : {{c.teacher}}</p>
+          <p class="card-text">primary key : {{c.pk}}</p>
+      </div>
+    </div>
 <br>
 {% endfor %}
 {% endif %}
