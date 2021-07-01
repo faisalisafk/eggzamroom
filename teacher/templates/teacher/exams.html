@@ -1,41 +1,41 @@
 {% extends "base.html" %}
-
+{%block popup%}
+<a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#exampleModalCenter">Create Exam</a>
+{%endblock%}
 
 {% block body %}
 {% if user.teacher %}
-<h3  style="margin-left: 25px;">Courses</h3>
+<h3  style="margin-left: 25px;">Exams</h3>
 {% endif %}
 
 
-<section id="courses">
+<section>
     <div class="container">
-{% if not course%}
+{% if not exams%}
 <div>
-    <h2> No courses man!!! Create some </h2>
+    <h2> No exams man!!! Create some</h2>
 </div>
 {% else %}
-    <!--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
-    <div class="row">
 
-        {%for c in course %}
+    <div class="row">
+        {% for e in exams %}
         <div class="col-auto mb-4">
             <div class="card" style="width: 20vw; height: 20hw;">
-                <div class="card-header bg-primary text-truncate text-light">
-                    <a class="card-title text-light" href="/teacher/course/{{c.pk}}"  style="font-weight: bold;
-                     font-size: 18px;">Course:{{c.title}}</a>
-                    <p class="card-subtitle mb-2 text-light" style="font-size: 14px;">Course Code : {{c.courseCode}}</p>
+                <div class="card-header bg-warning text-truncate text-light">
+                    <a class="card-title text-light" href="#" } style="font-weight: bold;
+                     font-size: 18px;">Exam title: {{e.title}}</a>
+                    <p class="card-subtitle mb-2 text-light">Course Code : {{c.courseCode}}</p>
                 </div>
 
               <div class="card-body">
-                  <p class="card-text text-primary">Course subject : {{c.subject}}</p>
-                  <p class="card-text text-primary">Course subject : {{c.teacher}}</p>
-                  <p class="card-text text-primary">primary key : {{c.pk}}</p>
+                  <p class="card-text">Exam Course: {{e.course.title}}</p>
+                  <p class="card-text">Exam description: {{e.description}} </p>
+                  <p class="card-text">primary key : {{e.pk}}</p>
               </div>
             </div>
         </div>
         {% endfor %}
         {% endif %}
-
     </div>
     </div>
 </section>
@@ -46,13 +46,13 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Create New Course</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle">Create New Exam</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
-        <form action="/teacher/" method="post">
+        <form action="" method="post">
       <div class="modal-body">
 
             {% csrf_token %}
@@ -62,7 +62,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <input type="submit" value="Create Course" class="btn btn-primary">
+          <input type="submit" value="Create Exam" class="btn btn-primary">
       </div>
         </form>
     </div>
@@ -71,6 +71,8 @@
 
 
 {% endblock %}
+
+
 
 
 

@@ -26,19 +26,24 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # only for development mode, wont work in
+    # production
+
 # Application definition
 
 INSTALLED_APPS = [
+# user defined app
+    'accounts.apps.AccountsConfig',
+    'teacher.apps.TeacherConfig',
+    'student.apps.StudentConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # user defined app
-    'accounts.apps.AccountsConfig',
-    'teacher.apps.TeacherConfig',
-    'student.apps.StudentConfig',
+
 
 ]
 
