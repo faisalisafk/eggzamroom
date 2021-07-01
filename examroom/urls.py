@@ -19,7 +19,6 @@ from django.contrib.auth import views as auth_views
 
 from accounts.views import home_view, login_view, signup_view, logout_view, teacher_signup_view
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
