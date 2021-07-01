@@ -7,7 +7,9 @@
         {% if request.user.is_authenticated %}
         <a class="btn btn-outline-primary" href="/teacher/">Dashboard</a>
         <!-- Trigger/Create Course Modal -->
-        <a class="btn btn-outline-primary" href="#createCourse" id="myBtn" style="margin:6px">Create Course</a>
+        {%block popup%}
+        <a class="p-2 text-dark" href="#createCourse" id="myBtn">Create Course</a>
+        {%endblock%}
         <a class="btn btn-outline-primary" href="/accounts/profile" style="margin:6px">Profile</a>
         <a class="btn btn-outline-primary" href="/logout/" style="margin:6px">Log out</a>
 
