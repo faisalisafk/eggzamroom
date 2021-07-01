@@ -5,7 +5,7 @@
 
 {% block body %}
 {% if user.teacher %}
-<h3  style="margin-left: 25px;">Courses</h3>
+<h3  style="margin-left: 25px;">Exams</h3>
 {% endif %}
 
 
@@ -22,7 +22,7 @@
         <div class="col-auto mb-4">
             <div class="card" style="width: 20vw; height: 20hw;">
                 <div class="card-header bg-warning text-truncate text-light">
-                    <a class="card-title text-light" href="/teacher/course/{{c.pk}}" } style="font-weight: bold;
+                    <a class="card-title text-light" href="#" } style="font-weight: bold;
                      font-size: 18px;">Exam title: {{e.title}}</a>
                     <p class="card-subtitle mb-2 text-light">Course Code : {{c.courseCode}}</p>
                 </div>
