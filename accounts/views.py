@@ -30,8 +30,8 @@ def login_view(request):
                     return redirect("/login/")
         else:
             form = AccountAuthenticationForm()
-            context['login_form'] = form
-            return render(request, 'accounts/login.html', context)
+        context['login_form'] = form
+        return render(request, 'accounts/login.html', context)
 
 
 def home_view(request):
@@ -87,3 +87,9 @@ def teacher_signup_view(request):
 def logout_view(request):
     logout(request)
     return redirect('/login/')
+
+
+def profile_view(request):
+    # user = request.user
+    # context = {}
+    return render(request, 'accounts/profile.html')
