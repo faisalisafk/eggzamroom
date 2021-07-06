@@ -6,7 +6,7 @@
     <nav class="my-2 my-md-0 mr-md-3">
         {% if request.user.is_authenticated %}
         <a class="btn btn-outline-primary" href="/student/">Dashboard</a>
-        <!-- Trigger/Create Course Modal -->
+        <!-- Trigger/Join Course Modal -->
         {%block popup%}
         <a class="btn btn-outline-primary" href="#joinCourse" id="myBtn">Join Course</a>
         {%endblock%}

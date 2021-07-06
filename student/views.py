@@ -2,9 +2,11 @@ import requests
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
 
 from django.apps import apps
-from accounts.models import User, Student
-from .models import Course
+from accounts.models import User
+from teacher.models import Course, Exam
+from student.models import Student
 from .forms import CourseJoinForm
+from teacher.forms import ExamForm
 
 
 def dashboard(request):
@@ -16,16 +18,20 @@ def dashboard(request):
                     courseCode = form.cleaned_data['courseCode']
                     course = Course.objects.get(courseCode=courseCode)
                     student = Student.objects.get(pk=request.user.pk)
-                    c = JoinCourse(student=student)
-                    c.save()
-                    c.courses.add(course)
+                    student.course.add(course)
+                    #c = JoinCourse()
+                    #c.save()
+                    #c.courses.add(course)
                     return redirect('/student/')
                 else:
                     return HttpResponse("<h1>Invalid form</h1>")
             else:
                 form = CourseJoinForm()
-                userDetails = User.objects.get(pk=request.user.pk)
-                courseList = Course.objects.filter(student=request.user.pk)
+                userDetails = Student.objects.get(pk=request.user.pk)
+                courseList = userDetails.course.all()
+                #Course.objects.filter(Student=userDetails)
+                #Course.objects.filter(=request.user.pk)
+                #Publication.objects.get(id=4).article_set.all()
                 context = {'user': userDetails,
                            'course': courseList,
                            'form': form}
