@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-#from teacher.models import Course
 
 class UserAccountManager(BaseUserManager):
     def create_user(self, email, username, password=None):
@@ -54,15 +53,6 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
-
-
-
-
-
-class Exam(models.Model):
-    pass
-
-
 
 
 

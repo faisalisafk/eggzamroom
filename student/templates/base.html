@@ -13,7 +13,12 @@
         {% endif %}</h5>
     <nav class="my-2 my-md-0 mr-md-3">
         {% if request.user.is_student %}
+        {%block userdashboard%}
+
         <a class="btn btn-outline-primary" href="/student/">Dashboard</a>
+
+        {%endblock%}
+
         <!-- Trigger/Join Course Modal -->
         {%block popup%}
         <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#exampleModalCenter">Join Course</a>

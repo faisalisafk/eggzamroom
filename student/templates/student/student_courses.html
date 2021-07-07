@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 
+
+{%block userdashboard%}
+{% if request.user.is_student %}
+        <a class="btn btn-outline-primary" href="/student/">Dashboard</a>
+{% endif %}
+{%endblock%}
+
+
 {%block popup%}
 <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#exampleModalCenter">Join Exam</a>
 {%endblock%}
+
+
 
 {% block body %}
 {% if user.student %}

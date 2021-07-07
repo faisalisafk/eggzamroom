@@ -1,8 +1,18 @@
 {% extends "base.html" %}
+{%block userdashboard%}
+{% if request.user.is_student %}
+        <a class="btn btn-outline-primary" href="/student/">Dashboard</a>
+{% endif %}
+{%endblock%}
+
+
+{%block popup%}
+
+{%endblock%}
 
 
 {% block body %}
-{% if user.teacher %}
+{% if user.student %}
 <h3  style="margin-left: 25px;">Exams</h3>
 {% endif %}
 

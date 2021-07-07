@@ -19,9 +19,6 @@ def dashboard(request):
                     course = Course.objects.get(courseCode=courseCode)
                     student = Student.objects.get(pk=request.user.pk)
                     student.course.add(course)
-                    #c = JoinCourse()
-                    #c.save()
-                    #c.courses.add(course)
                     return redirect('/student/')
                 else:
                     return HttpResponse("<h1>Invalid form</h1>")
@@ -29,9 +26,7 @@ def dashboard(request):
                 form = CourseJoinForm()
                 userDetails = Student.objects.get(pk=request.user.pk)
                 courseList = userDetails.course.all()
-                #Course.objects.filter(Student=userDetails)
-                #Course.objects.filter(=request.user.pk)
-                #Publication.objects.get(id=4).article_set.all()
+
                 context = {'user': userDetails,
                            'course': courseList,
                            'form': form}
