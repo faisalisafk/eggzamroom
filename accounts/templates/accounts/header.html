@@ -31,7 +31,11 @@
         {% endif %}</h5>
     <nav class="my-2 my-md-0 mr-md-3">
         {% if request.user.is_authenticated %}
+        {% if request.user.is_student %}
+        <a class="btn btn-outline-primary" href="/student/">Dashboard</a>
+        {% else %}
         <a class="btn btn-outline-primary" href="/teacher/">Dashboard</a>
+        {% endif %}
         <a class="btn btn-outline-primary" href="/accounts/profile" style="margin:6px">Profile</a>
         <a class="btn btn-outline-primary" href="/logout/" style="margin:6px">Log out</a>
 

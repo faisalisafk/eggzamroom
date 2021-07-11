@@ -1,11 +1,4 @@
-{% extends "base.html" %}
-
-
-{%block userdashboard%}
-{% if request.user.is_student %}
-        <a class="btn btn-outline-primary" href="/student/">Dashboard</a>
-{% endif %}
-{%endblock%}
+{% extends "./base.html" %}
 
 
 {%block popup%}
