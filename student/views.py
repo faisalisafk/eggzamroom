@@ -1,20 +1,47 @@
-from django.shortcuts import render,redirect
+import requests
+from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
+
+from django.apps import apps
 from accounts.models import User
-from django.contrib.auth import logout
+from teacher.models import Course, Exam
+from student.models import Student
+from .forms import CourseJoinForm
+from teacher.forms import ExamForm
 
-# Create your views here.
-def dashboard_student(request):
 
+def dashboard(request):
     if request.user.is_authenticated:
         if request.user.is_student:
-            studentDetails = User.objects.get(pk=request.user.pk)
-            context = {'student': studentDetails}
-            print('ok')
-            return render(request, 'student/dashboard_student.html', context)
+            if request.method == 'POST':
+                form = CourseJoinForm(request.POST)
+                if form.is_valid():
+                    courseCode = form.cleaned_data['courseCode']
+                    course = Course.objects.get(courseCode=courseCode)
+                    student = Student.objects.get(pk=request.user.pk)
+                    student.course.add(course)
+                    return redirect('/student/')
+                else:
+                    return HttpResponse("<h1>Invalid form</h1>")
+            else:
+                form = CourseJoinForm()
+                userDetails = Student.objects.get(pk=request.user.pk)
+                courseList = userDetails.course.all()
+
+                context = {'user': userDetails,
+                           'course': courseList,
+                           'form': form}
+                return render(request, 'student/student_courses.html', context)
         else:
-            print('views 13')
-            logout(request)
-            return redirect('/login/')
+            return redirect('/logout/')
     else:
-        print('views 17')
         return redirect('/login/')
+
+
+def coursePage(request, coursePk):
+
+        form = ExamForm()
+        exams = Exam.objects.filter(course=coursePk)
+        context = {'exams': exams,
+                   'form': form}
+        return render(request, 'student/exams.html', context)
+

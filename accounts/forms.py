@@ -3,7 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from django.db import transaction
 
-from accounts.models import User, Student, Teacher
+from accounts.models import User, Teacher
+from student.models import Student
 
 
 class StudentRegistrationForm(UserCreationForm):

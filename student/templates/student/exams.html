@@ -1,11 +1,11 @@
 {% extends "./base.html" %}
 
 {%block popup%}
-<a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#exampleModalCenter">Create Exam</a>
+
 {%endblock%}
 
 {% block body %}
-{% if user.teacher %}
+{% if user.student %}
 <h3  style="margin-left: 25px;">Exams</h3>
 {% endif %}
 
@@ -14,7 +14,7 @@
     <div class="container">
 {% if not exams%}
 <div>
-    <h2> No exams man!!! Create some</h2>
+    <h2> No exams Created </h2>
 </div>
 {% else %}
 
@@ -41,7 +41,7 @@
     </div>
 </section>
 
-<!-- Modal -->
+<!-- Modal
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content">
@@ -69,7 +69,7 @@
     </div>
   </div>
 </div>
-
+-->
 
 {% endblock %}
 
