@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-
 class UserAccountManager(BaseUserManager):
     def create_user(self, email, username, password=None):
         if not email:
@@ -55,20 +54,6 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-
-class Course(models.Model):
-    pass
-
-
-class Exam(models.Model):
-    pass
-
-
-class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    studentID = models.IntegerField(unique=True, null=True)
-    # exams = models.ManyToManyField(Exam, through='TakenExam')
-    # course = models.ManyToManyField(Course, related_name='interested_students')
 
 
 
