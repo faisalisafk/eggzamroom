@@ -19,7 +19,7 @@ def dashboard(request):
                     course = Course.objects.get(courseCode=courseCode)
                     student = Student.objects.get(pk=request.user.pk)
                     student.course.add(course)
-                    return redirect('student/student_courses.html')
+                    return redirect('/student/')
                 else:
                     return HttpResponse("<h1>Invalid form</h1>")
             else:
