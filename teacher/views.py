@@ -54,3 +54,8 @@ def coursePage(request, coursePk):
         context = {'exams': exams,
                    'form': form}
         return render(request, 'teacher/exams.html', context)
+
+def formPage(request,examPk):
+    exam = Exam.objects.get(pk=examPk)
+    context = {'exam': exam}
+    return render(request, 'teacher/form.html', context)
