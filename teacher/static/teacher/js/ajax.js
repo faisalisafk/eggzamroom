@@ -5,7 +5,7 @@ $("#btnSave").click(function(){
     let csr = $("input[name=csrfmiddlewaretoken").val();
     console.log(ft)
     console.log(fd)
-    myFormData = {title:ft, description:fd,csrfmiddlewaretoken: csr ,};
+    myFormData = {title:ft, description:fd,csrfmiddlewaretoken: csr };
  
 
     $.ajax({
