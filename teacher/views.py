@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirec
 
 from django.apps import apps
 from accounts.models import User, Teacher
-from .models import Course, Exam
+from .models import Course, Exam, Form
 from .forms import CourseForm, ExamForm
 
 
@@ -54,3 +54,15 @@ def coursePage(request, coursePk):
         context = {'exams': exams,
                    'form': form}
         return render(request, 'teacher/exams.html', context)
+
+
+def formPage(request, examPk):
+    form = Form.objects.filter(exam=examPk)
+    # First check if a form does not exists create a default form
+    if not form.exists():
+        form = Form(exam=Exam.objects.get(pk=examPk))
+    
+    exam = Exam.objects.get(pk=examPk)
+    context = {'exam': exam,
+                'form': form}
+    return render(request, 'teacher/form.html', context)
