@@ -58,13 +58,13 @@ def coursePage(request, coursePk):
 
 
 def formPage(request, examPk):
-    form = Form.objects.filter(exam=Exam.objects.get(pk=examPk))
-    form = form[0]
     # First check if a form does not exists create a default form
-    if not form:
+    try:
+        form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+    except Form.DoesNotExist:
         print("got no form man!!!!")
         form = Form(exam=Exam.objects.get(pk=examPk))
-        form.save()
+        form.save()    
     
     exam = Exam.objects.get(pk=examPk)
     
