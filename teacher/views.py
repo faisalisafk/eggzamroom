@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 import requests
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
 
@@ -57,12 +58,26 @@ def coursePage(request, coursePk):
 
 
 def formPage(request, examPk):
-    form = Form.objects.filter(exam=examPk)
+    form = Form.objects.filter(exam=Exam.objects.get(pk=examPk))
+    form = form[0]
     # First check if a form does not exists create a default form
-    if not form.exists():
+    if not form:
+        print("got no form man!!!!")
         form = Form(exam=Exam.objects.get(pk=examPk))
+        form.save()
     
     exam = Exam.objects.get(pk=examPk)
+    
     context = {'exam': exam,
                 'form': form}
     return render(request, 'teacher/form.html', context)
+
+def saveForm(request,examPk):
+    if request.method=='POST':
+        titl = request.POST["title"]
+        des = request.POST["description"]
+        myform = Form.objects.filter(exam=Exam.objects.get(pk=examPk))
+        myform.update(title=titl,description=des)
+        return JsonResponse({'status':  'Save'})
+    else:
+        return JsonResponse({'status':  0})
