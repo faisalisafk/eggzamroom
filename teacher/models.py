@@ -37,9 +37,9 @@ class Question(models.Model):
     question_title = models.TextField(max_length=200, null=False, blank=False)
     question_type = models.CharField(max_length=20,null=False, blank=False)
     question_score = models.PositiveIntegerField(null=False,blank=False)
-    form = models.ForeignKey(Form,on_delete=models.CASCADE)
+    form = models.ForeignKey(Form,on_delete=models.CASCADE, related_name='questions')
 
 class Choice(models.Model):
     question_choice = models.CharField(max_length=20,null=False, blank=False)
     is_answer = models.BooleanField(null=False,blank=False)
-    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    question = models.ForeignKey(Question,on_delete=models.CASCADE, related_name='choices')

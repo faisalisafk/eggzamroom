@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="{% static 'teacher/css/HurlUI.css' %}">
 
     {% endblock %}
-{%block popup%} <button class="btn btn-outline-primary"  style="margin:6px" id='btnSave'>Save</button> {%endblock%}
+{% block popup %} <button class="btn btn-outline-primary"  style="margin:6px" id='btnSave'>Save</button> {%endblock%}
 
 {% block body %}
 <h3 style="margin-left: 25px">Exam Form : {{exam.title.upper}}</h3>
 
+
 <section>
+
      <div class="container">
 
             <div class="margin-top-bottom box question-box" id="form-head">
@@ -23,16 +25,71 @@
                 <textarea class="form-description edit-on-click textarea-adjust txt-clr" rows="1"
                     placeholder="Form description" spellCheck="false"
                     id="form-description">{{form.description}}</textarea>
-
             </div>
-      <div class="container">
-    <h2>Form</h2>
-    <br>
-    <p>Title : {{form.title}}</p>
-    <p>Description: {{form.description}}</p>
-    <p>EXAM : {{form.exam.title}}</p>
-  </div>
-     </div>
+            
+            {% for question in form.questions.all %}
+             <div class="margin-top-bottom box question-box question" data-id="{{question.id}}">
+                <input type="text" data-id="{{question.id}}" class="question-title edit-on-click input-question"
+                    value="{{question.question_title}}">
+                    
+                    <select class="question-type-select input-question-type" data-id="{{question.id}}"
+                    data-origin_type="{{question.question_type}}">
+
+                    <option value="short" {% if question.question_type == "short" %}selected{% endif %}>Short answer
+                    </option>
+                   
+                    <option value="multiple choice" {% if question.question_type == "mcq" %}selected{% endif %}>Multiple choice</option>
+                   
+
+                </select>
+
+                {% if question.question_type == "mcq" %}
+                <div class="choices" data-id="{{question.id}}">
+                    {% for choice in question.choices.all %}
+                    <div class="choice">
+                        <input type="radio" id="{{choice.id}}" name="{{question.id}}" {% if choice.is_answer %}checked{% endif %} >
+                        <label for="{{choice.id}}">
+                            <input type="text" value="{{choice.question_choice}}" class="edit-choice" data-id="{{choice.id}}">
+                        </label>
+                        <span class="remove-option" title="Remove" data-id="{{choice.id}}">&times;</span>
+                    </div>
+                    {% endfor %}
+                    <div class="choice">
+                        <input type="radio" id="add-choice" disabled />
+                        <label for="add-choice" class="add-option" data-question="{{question.id}}"
+                            data-type="{{question.question_type}}">Add option</label>
+                    </div>
+                </div>
+                
+                {% elif question.question_type == "short" %}
+                <div class="answers" data-id="{{question.id}}">
+                    <input type="text" class="short-answer" disabled placeholder="Short answer text" />
+                </div>
+                {% endif %}
+                <div class="choice-option">
+                    
+                    <label for="mark-{{question.id}}" class="required">Mark</label>
+                    <input type="number" class="required-checkbox" id="mark-{{question.id}}"
+                        data-id="{{question.id}}" value="{{question.question_score}}">
+                    <div class="float-right">
+                        <img src="{% static 'Icon/dustbin.png' %}" alt="Delete question icon"
+                            class="question-option-icon delete-question" title="Delete question"
+                            data-id="{{question.id}}">
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+             </div>
+             
+             
+
+     
+    <div class="question-options">
+        <img src="/static/Icon/add.png" class="form-option-icon" title="Add question" alt="Add question icon" id="add-question">
+
+    </div>
+
 </section>
 
 {% endblock %}
