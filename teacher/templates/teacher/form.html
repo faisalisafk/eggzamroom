@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'teacher/css/HurlUI.css' %}">
 
     {% endblock %}
-{% block popup %} <button class="btn btn-outline-primary"  style="margin:6px" id='btnSave'>Save</button> {%endblock%}
+{% block popup %} <button class="btn btn-outline-success"  style="margin:6px" id='btnSave'>Save</button> {%endblock%}
 
 {% block body %}
 <h3 style="margin-left: 25px">Exam Form : {{exam.title.upper}}</h3>
@@ -72,9 +72,8 @@
                     <input type="number" class="required-checkbox" id="mark-{{question.id}}"
                         data-id="{{question.id}}" value="{{question.question_score}}">
                     <div class="float-right">
-                        <img src="{% static 'Icon/dustbin.png' %}" alt="Delete question icon"
-                            class="question-option-icon delete-question" title="Delete question"
-                            data-id="{{question.id}}">
+                        <button type="button" class="btn btn-danger" title="Delete question" data-id="{{question.id}}">Delete</button>
+                        
                     </div>
                 </div>
             </div>
@@ -86,8 +85,7 @@
 
      
     <div class="question-options">
-        <img src="/static/Icon/add.png" class="form-option-icon" title="Add question" alt="Add question icon" id="add-question">
-
+    <button type="button" class="btn btn-outline-dark form-option-icon" title="Add question" id="add-question">❓</button>
     </div>
 
 </section>
