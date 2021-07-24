@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirec
 
 from django.apps import apps
 from accounts.models import User, Teacher
-from .models import Course, Exam, Form
+from .models import Course, Exam, Form,Question
 from .forms import CourseForm, ExamForm
 
 
@@ -76,8 +76,19 @@ def saveForm(request,examPk):
     if request.method=='POST':
         titl = request.POST["title"]
         des = request.POST["description"]
-        myform = Form.objects.filter(exam=Exam.objects.get(pk=examPk))
+        myform = Form.objects.filter(exam=Exam.objects.get(pk=examPk))      
         myform.update(title=titl,description=des)
+        return JsonResponse({'status':  'Save'})
+    else:
+        return JsonResponse({'status':  0})
+
+def saveQuestion(request,examPk):
+    if request.method=='POST':
+        myId = request.POST["myId"]
+        myQuesTitle = request.POST["myQuestion"]
+        myMark = request.POST["mark"]
+        myQuestion = Question.objects.filter(pk=myId)
+        myQuestion.update(question_title = myQuesTitle,question_score=myMark)
         return JsonResponse({'status':  'Save'})
     else:
         return JsonResponse({'status':  0})
