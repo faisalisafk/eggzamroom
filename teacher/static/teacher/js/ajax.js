@@ -1,13 +1,11 @@
 $("#btnSave").click(function(){
-    console.log('clicked')
+    
     let ft = $('#form-title').val();
     let fd = $('#form-description').val();
     let csr = $("input[name=csrfmiddlewaretoken").val();
-    console.log(ft)
-    console.log(fd)
-    myData = {title:ft, description:fd };
- 
-
+    const myData = {title:ft, description:fd };
+    
+    //only form title and description
     $.ajax({
         cache : false,
         url: "saveForm",
@@ -19,15 +17,14 @@ $("#btnSave").click(function(){
         },
     });
 
-    //getting questions
+    //setting questions title and mark
     let markList = $('.required-checkbox');
     $('.input-question').each(function(i, obj) {
-        let myId = $(this).data("id");
+        let quesId = $(this).data("id");
         let myQuestion = $(this).val();
         let mark = $(markList[i]).val();
         
-        console.log(mark)
-        quesData = {myId:myId, myQuestion:myQuestion,mark:mark };
+        const quesData = {quesId:quesId, myQuestion:myQuestion,mark:mark };
         
         $.ajax({
             cache : false,
@@ -43,7 +40,29 @@ $("#btnSave").click(function(){
     });
 
     
-  
+    //editing options value and checking answers
+
+    $('.choice').each(function(i, obj) {       
+    
+        let optionId = $(this).find(".edit-choice").data("id");
+        let myOption = $(this).find(".edit-choice").val(); 
+        let isChecked = $(this).find("input").prop('checked');
+
+        const myOptionData = {optionId:optionId,myOption:myOption,isChecked:isChecked};
+
+        $.ajax({
+            cache : false,
+            url: "editOption",
+            method: "POST",
+            headers: {'X-CSRFToken': csr},
+            data: myOptionData,
+            success: function(data){
+                console.log("saved options")
+            },
+        });
+             
+
+    });
     
 
 })

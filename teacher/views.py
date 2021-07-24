@@ -1,10 +1,10 @@
 from django.http.response import JsonResponse
-import requests
+import requests,json
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
 
 from django.apps import apps
 from accounts.models import User, Teacher
-from .models import Course, Exam, Form,Question
+from .models import Course, Exam, Form,Question,Choice
 from .forms import CourseForm, ExamForm
 
 
@@ -84,7 +84,7 @@ def saveForm(request,examPk):
 
 def saveQuestion(request,examPk):
     if request.method=='POST':
-        myId = request.POST["myId"]
+        myId = request.POST["quesId"]
         myQuesTitle = request.POST["myQuestion"]
         myMark = request.POST["mark"]
         myQuestion = Question.objects.filter(pk=myId)
@@ -92,3 +92,16 @@ def saveQuestion(request,examPk):
         return JsonResponse({'status':  'Save'})
     else:
         return JsonResponse({'status':  0})
+
+def editOption(request,examPk):
+    if request.method == 'POST':
+        myId = request.POST["optionId"]
+        myOption = request.POST["myOption"]
+        
+        isChecked = json.loads(request.POST["isChecked"])
+        choice = Choice.objects.filter(pk=myId)
+        choice.update(question_choice=myOption,is_answer = isChecked)
+        return JsonResponse({'status':  'Save'})
+    else:
+        return JsonResponse({'status':  0})
+    

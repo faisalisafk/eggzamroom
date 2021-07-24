@@ -8,4 +8,5 @@ urlpatterns = [
     path('exam/<int:examPk>/',views.formPage,name='formPage'),
     path('exam/<int:examPk>/saveForm',views.saveForm,name='saveForm'),
     path('exam/<int:examPk>/saveQuestion',views.saveQuestion,name='saveQuestion'),
+    path('exam/<int:examPk>/editOption',views.editOption,name='editOption'),
 ]   
