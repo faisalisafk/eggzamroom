@@ -5,6 +5,7 @@ $("#btnSave").click(function(){
     let csr = $("input[name=csrfmiddlewaretoken").val();
     const myData = {title:ft, description:fd };
     
+    //only form title and description
     $.ajax({
         cache : false,
         url: "saveForm",
@@ -16,7 +17,7 @@ $("#btnSave").click(function(){
         },
     });
 
-    //getting questions
+    //setting questions title and mark
     let markList = $('.required-checkbox');
     $('.input-question').each(function(i, obj) {
         let quesId = $(this).data("id");
@@ -39,12 +40,15 @@ $("#btnSave").click(function(){
     });
 
     
-    //editing options
-    $('.edit-choice').each(function(i, obj) {
-        let optionId = $(this).data("id");
-        let myOption = $(this).val();     
- 
-        const myOptionData = {optionId:optionId,myOption:myOption};
+    //editing options value and checking answers
+
+    $('.choice').each(function(i, obj) {       
+    
+        let optionId = $(this).find(".edit-choice").data("id");
+        let myOption = $(this).find(".edit-choice").val(); 
+        let isChecked = $(this).find("input").prop('checked');
+
+        const myOptionData = {optionId:optionId,myOption:myOption,isChecked:isChecked};
 
         $.ajax({
             cache : false,
@@ -53,9 +57,10 @@ $("#btnSave").click(function(){
             headers: {'X-CSRFToken': csr},
             data: myOptionData,
             success: function(data){
-                console.log("edited options")
+                console.log("saved options")
             },
-        });         
+        });
+             
 
     });
     

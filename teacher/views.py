@@ -1,5 +1,5 @@
 from django.http.response import JsonResponse
-import requests
+import requests,json
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
 
 from django.apps import apps
@@ -97,8 +97,10 @@ def editOption(request,examPk):
     if request.method == 'POST':
         myId = request.POST["optionId"]
         myOption = request.POST["myOption"]
+        
+        isChecked = json.loads(request.POST["isChecked"])
         choice = Choice.objects.filter(pk=myId)
-        choice.update(question_choice=myOption)
+        choice.update(question_choice=myOption,is_answer = isChecked)
         return JsonResponse({'status':  'Save'})
     else:
         return JsonResponse({'status':  0})
