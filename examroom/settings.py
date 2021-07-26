@@ -33,7 +33,7 @@ if DEBUG:
 # Application definition
 
 INSTALLED_APPS = [
-# user defined app
+    # user defined app
     'accounts.apps.AccountsConfig',
     'teacher.apps.TeacherConfig',
     'student.apps.StudentConfig',
@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [

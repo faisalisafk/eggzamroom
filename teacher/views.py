@@ -1,9 +1,10 @@
-import requests
+from django.http.response import JsonResponse
+import requests,json
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
 
 from django.apps import apps
 from accounts.models import User, Teacher
-from .models import Course, Exam
+from .models import Course, Exam, Form,Question,Choice
 from .forms import CourseForm, ExamForm
 
 
@@ -54,3 +55,53 @@ def coursePage(request, coursePk):
         context = {'exams': exams,
                    'form': form}
         return render(request, 'teacher/exams.html', context)
+
+
+def formPage(request, examPk):
+    # First check if a form does not exists create a default form
+    try:
+        form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+    except Form.DoesNotExist:
+        print("got no form man!!!!")
+        form = Form(exam=Exam.objects.get(pk=examPk))
+        form.save()    
+    
+    exam = Exam.objects.get(pk=examPk)
+    
+    context = {'exam': exam,
+                'form': form}
+    return render(request, 'teacher/form.html', context)
+
+def saveForm(request,examPk):
+    if request.method=='POST':
+        titl = request.POST["title"]
+        des = request.POST["description"]
+        myform = Form.objects.filter(exam=Exam.objects.get(pk=examPk))      
+        myform.update(title=titl,description=des)
+        return JsonResponse({'status':  'Save'})
+    else:
+        return JsonResponse({'status':  0})
+
+def saveQuestion(request,examPk):
+    if request.method=='POST':
+        myId = request.POST["quesId"]
+        myQuesTitle = request.POST["myQuestion"]
+        myMark = request.POST["mark"]
+        myQuestion = Question.objects.filter(pk=myId)
+        myQuestion.update(question_title = myQuesTitle,question_score=myMark)
+        return JsonResponse({'status':  'Save'})
+    else:
+        return JsonResponse({'status':  0})
+
+def editOption(request,examPk):
+    if request.method == 'POST':
+        myId = request.POST["optionId"]
+        myOption = request.POST["myOption"]
+        
+        isChecked = json.loads(request.POST["isChecked"])
+        choice = Choice.objects.filter(pk=myId)
+        choice.update(question_choice=myOption,is_answer = isChecked)
+        return JsonResponse({'status':  'Save'})
+    else:
+        return JsonResponse({'status':  0})
+    

@@ -19,7 +19,7 @@
         <!-- Trigger/Join Course Modal -->
         {%block popup%}
         {% if request.user.is_student %}
-        <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#exampleModalCenter">Join Course</a>
+        <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#exampleModalCenter">Join course</a>
 
         {% endif %}
         {%endblock%}
@@ -31,7 +31,7 @@
 </div>
 
 </head>
-<body>
+<body onload=display_ct();>
 {% block body %}
 
 {% endblock %}
