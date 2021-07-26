@@ -28,8 +28,13 @@
 <body>
 
 <section id="profile">
-
-    <div class="container">
+ <style type="text/css">
+        .main{
+            min-height: 70vh;
+            height: 100%;
+            }
+    </style>
+    <div class="container main">
         <div class="child">
             <div class="col-auto mb-4">
                 <div class="card" style="width: 30vw; height: 75hw;">
@@ -52,6 +57,6 @@
     </div>
 
 </section>
-
+{% include 'accounts/footer.html' %}
 </body>
 </html>
