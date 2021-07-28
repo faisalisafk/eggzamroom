@@ -67,21 +67,24 @@ $("#btnSave").click(function(){
 
 })
 
-$(".remove-option").click(function(){
-    console.log("hello");
-    let data_id = $(this).data('data-id');
+$(".choices").on('click', '.remove-option', function(){
+
+    let mcq_choice_id = $(this).data('id');
     let csr = $("input[name=csrfmiddlewaretoken").val();
+
+    const context = {mcq_choice_id:mcq_choice_id}
+
+    console.log(mcq_choice_id);
 
     $.ajax({
             cache : false,
             url: "deleteOption",
             method: "POST",
             headers: {'X-CSRFToken': csr},
-            data: data_id,
+            data: context,
             success: function(data){
                 console.log("saved options")
             },
         });
-
     $(this).parent().remove();
 })
