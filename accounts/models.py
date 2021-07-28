@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+
 class UserAccountManager(BaseUserManager):
     def create_user(self, email, username, password=None):
         if not email:
@@ -55,8 +56,9 @@ class User(AbstractBaseUser):
         return True
 
 
-
-
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     teacherID = models.IntegerField(unique=True, null=True)
+
+    def __str__(self):
+        return self.user.firstName + " " + self.user.lastName

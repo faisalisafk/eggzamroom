@@ -66,3 +66,22 @@ $("#btnSave").click(function(){
     
 
 })
+
+$(".remove-option").click(function(){
+    console.log("hello");
+    let data_id = $(this).data('data-id');
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+
+    $.ajax({
+            cache : false,
+            url: "deleteOption",
+            method: "POST",
+            headers: {'X-CSRFToken': csr},
+            data: data_id,
+            success: function(data){
+                console.log("saved options")
+            },
+        });
+
+    $(this).parent().remove();
+})
