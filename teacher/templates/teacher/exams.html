@@ -31,7 +31,16 @@
               <div class="card-body">
                   <p class="card-text">Exam Course: {{e.course.title}}</p>
                   <p class="card-text">Exam description: {{e.description}} </p>
-                  <p class="card-text">primary key : {{e.pk}}</p>
+                  <p class="card-text">primary key : {{e.pk}} </p>
+
+                  <div class="dropdown">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Edit/Delete </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item" href="/teacher/deleteexam/{{e.pk}}">Delete</a>
+
+                      </div>
+                  </div>
               </div>
             </div>
         </div>
@@ -53,7 +62,7 @@
         </button>
       </div>
 
-        <form action="" method="post">
+        <form action="/teacher/course/{{coursePk}}/" method="post">
       <div class="modal-body">
 
             {% csrf_token %}

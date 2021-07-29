@@ -53,7 +53,8 @@ def coursePage(request, coursePk):
         form = ExamForm()
         exams = Exam.objects.filter(course=coursePk)
         context = {'exams': exams,
-                   'form': form}
+                   'form': form,
+                   'coursePk': coursePk}
         return render(request, 'teacher/exams.html', context)
 
 
@@ -104,4 +105,55 @@ def editOption(request,examPk):
         return JsonResponse({'status':  'Save'})
     else:
         return JsonResponse({'status':  0})
-    
+
+
+def deletecourse(request, coursePk):
+    if request.user.is_teacher:
+        deletedcourse = Course.objects.get(pk=coursePk)
+        deletedcourse.delete()
+
+        form = CourseForm()
+        userDetails = User.objects.get(pk=request.user.pk)
+        courseList = Course.objects.filter(teacher=request.user.pk)
+        context = {'user': userDetails,
+                   'course': courseList,
+                   'form': form}
+        return render(request, 'teacher/teacher_courses.html', context)
+
+
+def editCourse(request, coursePk):
+    if request.user.is_teacher:
+        if request.method == 'POST':
+            editdcourse = Course.objects.get(pk=coursePk)
+            form = CourseForm(request.POST)
+            if form.is_valid():
+                title = form.cleaned_data['title']
+                subject = form.cleaned_data['subject']
+                editdcourse.title = title
+                editdcourse.subject = subject
+                editdcourse.save()
+
+        form = CourseForm()
+        userDetails = User.objects.get(pk=request.user.pk)
+        courseList = Course.objects.filter(teacher=request.user.pk)
+        context = {'user': userDetails,
+                   'course': courseList,
+                   'form': form}
+        return render(request, 'teacher/teacher_courses.html', context)
+    else:
+        return redirect('/login/')
+
+
+
+def deleteexam(request, examPk):
+    if request.user.is_teacher:
+        deletedexam = Exam.objects.get(pk=examPk)
+        coursePk = deletedexam.course.pk
+        deletedexam.delete()
+
+        form = ExamForm()
+        exams = Exam.objects.filter(course=coursePk)
+        context = {'exams': exams,
+                   'form': form,
+                   'coursePk': coursePk}
+        return render(request, 'teacher/exams.html', context)

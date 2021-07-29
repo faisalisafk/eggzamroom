@@ -24,12 +24,21 @@
                     <a class="card-title text-light" href="/teacher/course/{{c.pk}}"  style="font-weight: bold;
                      font-size: 18px;">Course:{{c.title}}</a>
                     <p class="card-subtitle mb-2 text-light" style="font-size: 14px;">Course Code : {{c.courseCode}}</p>
+
                 </div>
 
               <div class="card-body">
                   <p class="card-text text-primary">Course subject : {{c.subject}}</p>
                   <p class="card-text text-primary">Course subject : {{c.teacher}}</p>
                   <p class="card-text text-primary">primary key : {{c.pk}}</p>
+                  <div class="dropdown">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Edit/Delete </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/teacher/editCourse/{{c.pk}}" data-toggle="modal" data-target="#courseEdit" data-id="{{c.pk}}">Edit</a>
+                        <a class="dropdown-item" href="/teacher/deletecourse/{{c.pk}}">Delete</a>
+
+                      </div>
+                    </div>
               </div>
             </div>
         </div>
@@ -63,6 +72,38 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <input type="submit" value="Create Course" class="btn btn-primary">
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Modal Edit-->
+<div class="modal fade" id="courseEdit" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalCenterTitle">Edit Course</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+        <form action="/teacher/editCourse/{{c.pk}}" method="post">
+      <div class="modal-body">
+
+            {% csrf_token %}
+            {{form.as_p}}
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <input type="submit" value="Edit Course" class="btn btn-primary">
       </div>
         </form>
     </div>
