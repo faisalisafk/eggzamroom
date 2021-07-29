@@ -119,3 +119,14 @@ def deleteOption(request, examPk):
         return JsonResponse({'status': 'Save'})
     else:
         return JsonResponse({'status': 0})
+
+
+def addOption(request, examPk):
+    if request.method == 'POST':
+        question_pk = request.POST['mcq_question_id']
+        question = Question.objects.get(pk=question_pk)
+        added_choice = Choice(question_choice="add new option", is_answer=False, question=question)
+        added_choice.save()
+        return JsonResponse({'status': 'Save'})
+    else:
+        return JsonResponse({'status': 0})

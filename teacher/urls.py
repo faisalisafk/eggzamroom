@@ -10,4 +10,5 @@ urlpatterns = [
     path('exam/<int:examPk>/saveQuestion', views.saveQuestion, name='saveQuestion'),
     path('exam/<int:examPk>/editOption', views.editOption, name='editOption'),
     path('exam/<int:examPk>/deleteOption', views.deleteOption, name='deleteOption'),
+    path('exam/<int:examPk>/addOption', views.addOption, name='addOption'),
 ]

@@ -90,42 +90,27 @@ $(".choices").on('click', '.remove-option', function(){
 })
 
 
-$(".choices").on('click', '.choice-add', function(){
+$(".choices").on('click', '.add-option', function(){
 
 
-
-    /*let html_string_for_adding = <input type="radio" data-id="{{choice.id}}" name="{{question.id}}" {% if choice.is_answer %}checked{% endif %} >
-                        <label for="{{choice.id}}">
-                            <input type="text" value="{{choice.question_choice}}" class="edit-choice" data-id="{{choice.id}}">
-                        </label>
-                        <span class="remove-option" title="Remove" data-id="{{choice.id}}">&times;</span> */
-
-
-
-
-
-
-        $(this).append(
-        $('<input>', {
-            type: 'text',
-            val: 'dummy option'
-          })
-        );
     let csr = $("input[name=csrfmiddlewaretoken").val();
+    let mcq_question_id = $(this).data('question');
 
-    //const context = {mcq_choice_id:mcq_choice_id}
+    console.log(mcq_question_id);
+    const context = {mcq_question_id:mcq_question_id};
 
-    console.log("working");
-
-    /*$.ajax({
+    $.ajax({
             cache : false,
-            url: "deleteOption",
+            url: "addOption",
             method: "POST",
             headers: {'X-CSRFToken': csr},
             data: context,
             success: function(data){
-                console.log("saved options")
+
+                $('.choices').load(document.URL +  ' .choices');
+                console.log("working");
             },
-        }); */
+        });
+
     //$(this).parent().remove();
 })
