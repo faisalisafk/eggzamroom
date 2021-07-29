@@ -111,10 +111,11 @@ def editOption(request, examPk):
 
 def deleteOption(request, examPk):
     if request.method == 'POST':
-        choice_id = request.POST["data_id"]
+        # choice_id = request.POST.get('mcq_choice_id', False)
+        choice_id = request.POST['mcq_choice_id']
+        print(choice_id)
         choice = Choice.objects.filter(pk=choice_id)
         choice.delete()
         return JsonResponse({'status': 'Save'})
     else:
         return JsonResponse({'status': 0})
-

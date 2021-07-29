@@ -88,3 +88,44 @@ $(".choices").on('click', '.remove-option', function(){
         });
     $(this).parent().remove();
 })
+
+
+$(".choices").on('click', '.choice-add', function(){
+
+
+
+    /*let html_string_for_adding = <input type="radio" data-id="{{choice.id}}" name="{{question.id}}" {% if choice.is_answer %}checked{% endif %} >
+                        <label for="{{choice.id}}">
+                            <input type="text" value="{{choice.question_choice}}" class="edit-choice" data-id="{{choice.id}}">
+                        </label>
+                        <span class="remove-option" title="Remove" data-id="{{choice.id}}">&times;</span> */
+
+
+
+
+
+
+        $(this).append(
+        $('<input>', {
+            type: 'text',
+            val: 'dummy option'
+          })
+        );
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+
+    //const context = {mcq_choice_id:mcq_choice_id}
+
+    console.log("working");
+
+    /*$.ajax({
+            cache : false,
+            url: "deleteOption",
+            method: "POST",
+            headers: {'X-CSRFToken': csr},
+            data: context,
+            success: function(data){
+                console.log("saved options")
+            },
+        }); */
+    //$(this).parent().remove();
+})
