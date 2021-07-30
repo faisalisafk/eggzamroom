@@ -107,8 +107,8 @@ $(".choices").on('click', '.add-option', function(){
             data: context,
             success: function(data){
 
-                $('.choices').load(document.URL +  ' .choices');
-                console.log("working");
+                $('.choices'.mcq_question_id).load(document.URL +  ' .choices'.mcq_question_id);
+                console.log(mcq_question_id);
             },
         });
 
