@@ -144,3 +144,11 @@ def addQuestion(request, examPk):
     else:
         return JsonResponse({'status': 0})
 
+def delQuestion(request, examPk):
+    if request.method == 'POST':
+        myQues = request.POST['del_qid']
+        getQues = Question.objects.filter(pk=myQues)
+        getQues.delete()
+        return JsonResponse({'status': 'Save'})
+    else:
+        return JsonResponse({'status': 0})

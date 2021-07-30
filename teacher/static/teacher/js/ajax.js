@@ -136,3 +136,23 @@ $("#add-question").click(function(){
         });
     //$(this).parent().remove();
 })
+
+//deleting questions
+$("#question_div").on('click', '.btn-danger', function(){
+
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    let del_qid = $(this).data('id');
+    const myDelData = {del_qid:del_qid};
+
+    $.ajax({
+        cache : false,
+        url: "delQuestion",
+        method: "POST",
+        headers: {'X-CSRFToken': csr},
+        data: myDelData,
+        success: function(data){
+            console.log("Deleted Question "+del_qid);            
+        },
+    });
+    $(this).parent().parent().parent().remove();    
+})
