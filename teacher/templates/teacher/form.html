@@ -26,7 +26,7 @@
                     placeholder="Form description" spellCheck="false"
                     id="form-description">{{form.description}}</textarea>
             </div>
-            
+            <section  id="question_div">
             {% for question in form.questions.all %}
              <div class="margin-top-bottom box question-box question" data-id="{{question.id}}">
                 <input type="text" data-id="{{question.id}}" class="question-title edit-on-click input-question"
@@ -44,7 +44,7 @@
                 </select>
 
                 {% if question.question_type == "mcq" %}
-                <div class="choices" data-id="{{question.id}}">
+                <div class="choices" data-id="{{question.id}}" id="{{question.id}}">
                     {% for choice in question.choices.all %}
                     <div class="choice">
                         <input type="radio" data-id="{{choice.id}}" name="{{question.id}}" {% if choice.is_answer %}checked{% endif %} >
@@ -78,14 +78,15 @@
                 </div>
             </div>
             {% endfor %}
-
+        </section>
              </div>
+
              
              
 
      
     <div class="question-options">
-    <button type="button" class="btn btn-outline-dark form-option-icon" title="Add question" id="add-question">❓</button>
+    <button type="button" class="btn btn-outline-dark form-option-icon" title="Add question" id="add-question">+</button>
     </div>
 
 </section>

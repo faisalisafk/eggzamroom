@@ -67,7 +67,7 @@ $("#btnSave").click(function(){
 
 })
 
-$(".choices").on('click', '.remove-option', function(){
+$(".choices").on('click','.remove-option',function(){
 
     let mcq_choice_id = $(this).data('id');
     let csr = $("input[name=csrfmiddlewaretoken").val();
@@ -83,7 +83,7 @@ $(".choices").on('click', '.remove-option', function(){
             headers: {'X-CSRFToken': csr},
             data: context,
             success: function(data){
-                console.log("saved options")
+                console.log("removed mcq choice")
             },
         });
     $(this).parent().remove();
@@ -96,9 +96,9 @@ $(".choices").on('click', '.add-option', function(){
     let csr = $("input[name=csrfmiddlewaretoken").val();
     let mcq_question_id = $(this).data('question');
 
-    console.log(mcq_question_id);
+    //console.log(mcq_question_id);
     const context = {mcq_question_id:mcq_question_id};
-
+    let par = $("#"+mcq_question_id+"");
     $.ajax({
             cache : false,
             url: "addOption",
@@ -107,10 +107,32 @@ $(".choices").on('click', '.add-option', function(){
             data: context,
             success: function(data){
 
-                $('.choices'.mcq_question_id).load(document.URL +  ' .choices'.mcq_question_id);
-                console.log(mcq_question_id);
+                $("#"+mcq_question_id+"").load(document.URL + " #"+mcq_question_id+"");
+
+                console.log("added option");
             },
         });
 
+    //$(this).parent().remove();
+})
+
+$("#add-question").click(function(){
+
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+
+
+
+    $.ajax({
+            cache : false,
+            url: "addQuestion",
+            method: "POST",
+            headers: {'X-CSRFToken': csr},
+            data: '',
+            success: function(data){
+                console.log("added Question");
+                //$("#question_div").load(document.URL + " #question_div");
+                $("#question_div").load(document.URL + " #question_div");
+            },
+        });
     //$(this).parent().remove();
 })

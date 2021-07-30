@@ -130,3 +130,17 @@ def addOption(request, examPk):
         return JsonResponse({'status': 'Save'})
     else:
         return JsonResponse({'status': 0})
+
+
+def addQuestion(request, examPk):
+    if request.method == 'POST':
+        exam = Exam.objects.get(pk=examPk)
+        print(exam.title)
+        form = Form.objects.get(exam=exam)
+        print(form.title)
+        added_question = Question(question_title="New Question", question_type="mcq", question_score="10", form=form)
+        added_question.save()
+        return JsonResponse({'status': 'Save'})
+    else:
+        return JsonResponse({'status': 0})
+
