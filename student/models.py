@@ -9,3 +9,6 @@ class Student(models.Model):
     studentID = models.IntegerField(unique=True, null=True)
     course = models.ManyToManyField(Course)
     # exams = models.ManyToManyField(Exam, through='TakenExam')
+
+    def __str__(self):
+        return self.user.username
