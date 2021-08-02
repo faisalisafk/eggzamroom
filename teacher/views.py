@@ -1,10 +1,10 @@
 from django.http.response import JsonResponse
-import requests,json
+import requests, json
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
 
 from django.apps import apps
 from accounts.models import User, Teacher
-from .models import Course, Exam, Form,Question,Choice
+from .models import Course, Exam, Form, Question, Choice
 from .forms import CourseForm, ExamForm
 
 
@@ -64,44 +64,93 @@ def formPage(request, examPk):
     except Form.DoesNotExist:
         print("got no form man!!!!")
         form = Form(exam=Exam.objects.get(pk=examPk))
-        form.save()    
-    
+        form.save()
+
     exam = Exam.objects.get(pk=examPk)
-    
+
     context = {'exam': exam,
-                'form': form}
+               'form': form}
     return render(request, 'teacher/form.html', context)
 
-def saveForm(request,examPk):
-    if request.method=='POST':
+
+def saveForm(request, examPk):
+    if request.method == 'POST':
         titl = request.POST["title"]
         des = request.POST["description"]
-        myform = Form.objects.filter(exam=Exam.objects.get(pk=examPk))      
-        myform.update(title=titl,description=des)
-        return JsonResponse({'status':  'Save'})
+        myform = Form.objects.filter(exam=Exam.objects.get(pk=examPk))
+        myform.update(title=titl, description=des)
+        return JsonResponse({'status': 'Save'})
     else:
-        return JsonResponse({'status':  0})
+        return JsonResponse({'status': 0})
 
-def saveQuestion(request,examPk):
-    if request.method=='POST':
+
+def saveQuestion(request, examPk):
+    if request.method == 'POST':
         myId = request.POST["quesId"]
         myQuesTitle = request.POST["myQuestion"]
         myMark = request.POST["mark"]
         myQuestion = Question.objects.filter(pk=myId)
-        myQuestion.update(question_title = myQuesTitle,question_score=myMark)
-        return JsonResponse({'status':  'Save'})
+        myQuestion.update(question_title=myQuesTitle, question_score=myMark)
+        return JsonResponse({'status': 'Save'})
     else:
-        return JsonResponse({'status':  0})
+        return JsonResponse({'status': 0})
 
-def editOption(request,examPk):
+
+def editOption(request, examPk):
     if request.method == 'POST':
         myId = request.POST["optionId"]
         myOption = request.POST["myOption"]
-        
+
         isChecked = json.loads(request.POST["isChecked"])
         choice = Choice.objects.filter(pk=myId)
-        choice.update(question_choice=myOption,is_answer = isChecked)
-        return JsonResponse({'status':  'Save'})
+        choice.update(question_choice=myOption, is_answer=isChecked)
+        return JsonResponse({'status': 'Save'})
     else:
-        return JsonResponse({'status':  0})
-    
+        return JsonResponse({'status': 0})
+
+
+def deleteOption(request, examPk):
+    if request.method == 'POST':
+        # choice_id = request.POST.get('mcq_choice_id', False)
+        choice_id = request.POST['mcq_choice_id']
+        print(choice_id)
+        choice = Choice.objects.filter(pk=choice_id)
+        choice.delete()
+        return JsonResponse({'status': 'Save'})
+    else:
+        return JsonResponse({'status': 0})
+
+
+def addOption(request, examPk):
+    if request.method == 'POST':
+        question_pk = request.POST['mcq_question_id']
+        question = Question.objects.get(pk=question_pk)
+        added_choice = Choice(question_choice="add new option", is_answer=False, question=question)
+        added_choice.save()
+        return JsonResponse({'status': 'Save'})
+    else:
+        return JsonResponse({'status': 0})
+
+
+def addQuestion(request, examPk):
+    if request.method == 'POST':
+        exam = Exam.objects.get(pk=examPk)
+        print(exam.title)
+        form = Form.objects.get(exam=exam)
+        print(form.title)
+        added_question = Question(question_title="New Question", question_type="mcq", question_score="1", form=form)
+        added_question.save()
+        tempPk = added_question.pk 
+       
+        return JsonResponse({'status': 'Save','newques':tempPk})
+    else:
+        return JsonResponse({'status': 0})
+
+def delQuestion(request, examPk):
+    if request.method == 'POST':
+        myQues = request.POST['del_qid']
+        getQues = Question.objects.filter(pk=myQues)
+        getQues.delete()
+        return JsonResponse({'status': 'Save'})
+    else:
+        return JsonResponse({'status': 0})
