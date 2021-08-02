@@ -138,9 +138,11 @@ def addQuestion(request, examPk):
         print(exam.title)
         form = Form.objects.get(exam=exam)
         print(form.title)
-        added_question = Question(question_title="New Question", question_type="mcq", question_score="10", form=form)
+        added_question = Question(question_title="New Question", question_type="mcq", question_score="1", form=form)
         added_question.save()
-        return JsonResponse({'status': 'Save'})
+        tempPk = added_question.pk 
+       
+        return JsonResponse({'status': 'Save','newques':tempPk})
     else:
         return JsonResponse({'status': 0})
 

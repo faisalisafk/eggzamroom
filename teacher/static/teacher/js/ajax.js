@@ -71,7 +71,7 @@ $(".choices").on('click','.remove-option',function(){
 
     let mcq_choice_id = $(this).data('id');
     let csr = $("input[name=csrfmiddlewaretoken").val();
-
+    let temp = $(this);
     const context = {mcq_choice_id:mcq_choice_id}
 
     console.log(mcq_choice_id);
@@ -83,14 +83,15 @@ $(".choices").on('click','.remove-option',function(){
             headers: {'X-CSRFToken': csr},
             data: context,
             success: function(data){
-                console.log("removed mcq choice")
+                console.log("removed mcq choice");
+                $(temp).parent().remove();
             },
         });
-    $(this).parent().remove();
+    
 })
 
 
-$(".choices").on('click', '.add-option', function(){
+$(".starting").on('click', '.add-option', function(){
 
 
     let csr = $("input[name=csrfmiddlewaretoken").val();
@@ -107,19 +108,17 @@ $(".choices").on('click', '.add-option', function(){
             data: context,
             success: function(data){
 
-                $("#"+mcq_question_id+"").load(document.URL + " #"+mcq_question_id+"");
-
+               $("#"+mcq_question_id).load(" #"+mcq_question_id);
+                
                 console.log("added option");
             },
         });
-
     //$(this).parent().remove();
 })
 
-$("#add-question").click(function(){
+$(".starting").on('click', '#add-question', function(){
 
     let csr = $("input[name=csrfmiddlewaretoken").val();
-
 
 
     $.ajax({
@@ -128,13 +127,16 @@ $("#add-question").click(function(){
             method: "POST",
             headers: {'X-CSRFToken': csr},
             data: '',
+            dataType:"json",
             success: function(data){
-                console.log("added Question");
+                console.log(data.newques);
+                $(".someRandomDiv").load(" .someRandomDiv");
+                //$("#"+data.newques).load(" #"+data.newques);
                 //$("#question_div").load(document.URL + " #question_div");
-                $("#question_div").load(document.URL + " #question_div");
             },
-        });
-    //$(this).parent().remove();
+        }); 
+    
+    
 })
 
 //deleting questions
@@ -143,6 +145,7 @@ $("#question_div").on('click', '.btn-danger', function(){
     let csr = $("input[name=csrfmiddlewaretoken").val();
     let del_qid = $(this).data('id');
     const myDelData = {del_qid:del_qid};
+    let temp = $(this);
 
     $.ajax({
         cache : false,
@@ -151,8 +154,12 @@ $("#question_div").on('click', '.btn-danger', function(){
         headers: {'X-CSRFToken': csr},
         data: myDelData,
         success: function(data){
-            console.log("Deleted Question "+del_qid);            
+            console.log("Deleted Question "+del_qid); 
+            $(temp).fadeOut(200, function() {
+                $(temp).parent().parent().parent().remove(); 
+            }); 
+                     
         },
     });
-    $(this).parent().parent().parent().remove();    
+   // $(this).parent().parent().parent().remove();    
 })
