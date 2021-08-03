@@ -121,17 +121,17 @@ def deletecourse(request, coursePk):
         return render(request, 'teacher/teacher_courses.html', context)
 
 
-def editCourse(request, coursePk):
+def editCourse(request):
     if request.user.is_teacher:
         if request.method == 'POST':
+            coursePk = request.POST.get('courseId')
             editdcourse = Course.objects.get(pk=coursePk)
-            form = CourseForm(request.POST)
-            if form.is_valid():
-                title = form.cleaned_data['title']
-                subject = form.cleaned_data['subject']
-                editdcourse.title = title
-                editdcourse.subject = subject
-                editdcourse.save()
+
+            title = request.POST['title']
+            subject = request.POST['subject']
+            editdcourse.title = title
+            editdcourse.subject = subject
+            editdcourse.save()
 
         form = CourseForm()
         userDetails = User.objects.get(pk=request.user.pk)
