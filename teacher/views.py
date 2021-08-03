@@ -73,12 +73,20 @@ def formPage(request, examPk):
     return render(request, 'teacher/form.html', context)
 
 
-def saveForm(request, examPk):
+def saveFormTitle(request, examPk):
     if request.method == 'POST':
         titl = request.POST["title"]
+        myform = Form.objects.filter(exam=Exam.objects.get(pk=examPk))
+        myform.update(title=titl)
+        return JsonResponse({'status': 'Save'})
+    else:
+        return JsonResponse({'status': 0})
+
+def saveFormDes(request, examPk):
+    if request.method == 'POST':
         des = request.POST["description"]
         myform = Form.objects.filter(exam=Exam.objects.get(pk=examPk))
-        myform.update(title=titl, description=des)
+        myform.update(description=des)
         return JsonResponse({'status': 'Save'})
     else:
         return JsonResponse({'status': 0})
@@ -88,13 +96,21 @@ def saveQuestion(request, examPk):
     if request.method == 'POST':
         myId = request.POST["quesId"]
         myQuesTitle = request.POST["myQuestion"]
-        myMark = request.POST["mark"]
         myQuestion = Question.objects.filter(pk=myId)
-        myQuestion.update(question_title=myQuesTitle, question_score=myMark)
+        myQuestion.update(question_title=myQuesTitle)
         return JsonResponse({'status': 'Save'})
     else:
         return JsonResponse({'status': 0})
 
+def saveMark(request, examPk):
+    if request.method == 'POST':
+        myId = request.POST["quesId"]
+        myMark = request.POST["mark"]
+        myQuestion = Question.objects.filter(pk=myId)
+        myQuestion.update(question_score=myMark)
+        return JsonResponse({'status': 'Save'})
+    else:
+        return JsonResponse({'status': 0})
 
 def editOption(request, examPk):
     if request.method == 'POST':
