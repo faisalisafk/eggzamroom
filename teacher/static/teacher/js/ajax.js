@@ -1,30 +1,49 @@
-$("#btnSave").click(function(){
-    
+let csr = $("input[name=csrfmiddlewaretoken").val();
+
+//save form title
+$("#form-title").change(function(){
+
     let ft = $('#form-title').val();
     let fd = $('#form-description').val();
-    let csr = $("input[name=csrfmiddlewaretoken").val();
-    const myData = {title:ft, description:fd };
     
-    //only form title and description
+    const myData = {title:ft};
     $.ajax({
         cache : false,
-        url: "saveForm",
+        url: "saveFormTitle",
         method: "POST",
         headers: {'X-CSRFToken': csr},
         data: myData,
         success: function(data){
-            console.log("Saved title and description")
+            console.log("Title saved");
         },
-    });
+    });   
+});
 
-    //setting questions title and mark
-    let markList = $('.required-checkbox');
-    $('.input-question').each(function(i, obj) {
+//save form description
+$("#form-description").change(function(){
+
+    let fd = $('#form-description').val();
+    
+    const myData = {description:fd };
+    $.ajax({
+        cache : false,
+        url: "saveFormDes",
+        method: "POST",
+        headers: {'X-CSRFToken': csr},
+        data: myData,
+        success: function(data){
+            console.log("Description saved");
+        },
+    });   
+});
+
+
+//save question title
+$(".starting").on('change','.input-question',function(i,obj){  
         let quesId = $(this).data("id");
         let myQuestion = $(this).val();
-        let mark = $(markList[i]).val();
-        
-        const quesData = {quesId:quesId, myQuestion:myQuestion,mark:mark };
+
+        const quesData = {quesId:quesId, myQuestion:myQuestion };
         
         $.ajax({
             cache : false,
@@ -35,38 +54,57 @@ $("#btnSave").click(function(){
             success: function(data){
                 console.log("saved question")
             },
-        });
+        });    
 
-    });
+});
 
+//save question mark
+$(".starting").on('change','.required-checkbox',function(i,obj){  
+
+    let quesId = $(this).data("id");
+    let mark = $(this).val();
+
+    const quesData = {quesId:quesId, mark:mark };
     
-    //editing options value and checking answers
+    $.ajax({
+        cache : false,
+        url: "saveMark",
+        method: "POST",
+        headers: {'X-CSRFToken': csr},
+        data: quesData,
+        success: function(data){
+            console.log("saved marks")
+        },
+    });    
 
-    $('.choice').each(function(i, obj) {       
+});
+
+//save choice name and answer
+$(".starting").on('change','.choice',function(){   
     
-        let optionId = $(this).find(".edit-choice").data("id");
-        let myOption = $(this).find(".edit-choice").val(); 
-        let isChecked = $(this).find("input").prop('checked');
+    let optionId = $(this).find(".edit-choice").data("id");
+    let myOption = $(this).find(".edit-choice").val(); 
+    let isChecked = $(this).find("input").prop('checked');
 
-        const myOptionData = {optionId:optionId,myOption:myOption,isChecked:isChecked};
+    const myOptionData = {optionId:optionId,myOption:myOption,isChecked:isChecked};
 
-        $.ajax({
-            cache : false,
-            url: "editOption",
-            method: "POST",
-            headers: {'X-CSRFToken': csr},
-            data: myOptionData,
-            success: function(data){
-                console.log("saved options")
-            },
-        });             
-    });
-})
+    $.ajax({
+        cache : false,
+        url: "editOption",
+        method: "POST",
+        headers: {'X-CSRFToken': csr},
+        data: myOptionData,
+        success: function(data){
+            console.log("saved options")
+        },
+    });             
+});
 
+//remove choices
 $(".starting").on('click','.remove-option',function(){
 
     let mcq_choice_id = $(this).data('id');
-    let csr = $("input[name=csrfmiddlewaretoken").val();
+    
     let temp = $(this);
     const context = {mcq_choice_id:mcq_choice_id}
 
@@ -86,11 +124,10 @@ $(".starting").on('click','.remove-option',function(){
     
 })
 
-
+//add new choice
 $(".starting").on('click', '.add-option', function(){
 
 
-    let csr = $("input[name=csrfmiddlewaretoken").val();
     let mcq_question_id = $(this).data('question');
 
     //console.log(mcq_question_id);
@@ -112,11 +149,10 @@ $(".starting").on('click', '.add-option', function(){
     //$(this).parent().remove();
 })
 
+//add new questions
 $(".starting").on('click', '#add-question', function(){
 
-    let csr = $("input[name=csrfmiddlewaretoken").val();
-
-
+  
     $.ajax({
             cache : false,
             url: "addQuestion",
@@ -138,7 +174,6 @@ $(".starting").on('click', '#add-question', function(){
 //deleting questions
 $("#question_div").on('click', '.btn-danger', function(){
 
-    let csr = $("input[name=csrfmiddlewaretoken").val();
     let del_qid = $(this).data('id');
     const myDelData = {del_qid:del_qid};
     let temp = $(this);
