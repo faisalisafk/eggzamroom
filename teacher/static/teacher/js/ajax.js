@@ -59,15 +59,11 @@ $("#btnSave").click(function(){
             success: function(data){
                 console.log("saved options")
             },
-        });
-             
-
+        });             
     });
-    
-
 })
 
-$(".choices").on('click','.remove-option',function(){
+$(".starting").on('click','.remove-option',function(){
 
     let mcq_choice_id = $(this).data('id');
     let csr = $("input[name=csrfmiddlewaretoken").val();
@@ -130,9 +126,9 @@ $(".starting").on('click', '#add-question', function(){
             dataType:"json",
             success: function(data){
                 console.log(data.newques);
-                $(".someRandomDiv").load(" .someRandomDiv");
+                
                 //$("#"+data.newques).load(" #"+data.newques);
-                //$("#question_div").load(document.URL + " #question_div");
+                $(".starting").load(document.URL + " .starting");
             },
         }); 
     
