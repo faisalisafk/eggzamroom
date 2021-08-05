@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirec
 
 from django.apps import apps
 from accounts.models import User
-from teacher.models import Course, Exam
+from teacher.models import Course, Exam, Form
 from student.models import Student
 from .forms import CourseJoinForm
 from teacher.forms import ExamForm
@@ -45,3 +45,12 @@ def coursePage(request, coursePk):
                    'form': form}
         return render(request, 'student/exams.html', context)
 
+def examFormPage(request,examPk):
+    exam = Exam.objects.get(pk=examPk)
+    try:
+        form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+    except Form.DoesNotExist:
+        form = []
+    context = {'exam':exam,
+                'form':form}
+    return render(request, 'student/examForm.html', context)

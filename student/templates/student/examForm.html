@@ -1,0 +1,39 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block title %}Exam Time{% endblock %}
+    {% block link %}   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    {% endblock %}
+{% block popup %}
+{%endblock%}
+
+{% block body %}
+<h3 style="margin-left: 25px">Exam Form : {{exam.title.upper}}</h3>
+
+
+
+<div class="container">
+
+{% for question in form.questions.all %}
+  <h4>{{question.question_title}}</h4>
+  
+    {% for choice in question.choices.all %}
+    <div class="radio">
+      <label><input type="radio" name="{{question.id}}">{{choice.question_choice}}</label>
+    </div>
+    {% endfor %} 
+    <br>
+ {% endfor %}
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block customScript%}
+
+{% endblock %}
