@@ -85,7 +85,7 @@ $(".starting").on('change','.choice',function(){
     let optionId = $(this).find(".edit-choice").data("id");
     let myOption = $(this).find(".edit-choice").val(); 
     let isChecked = $(this).find("input").prop('checked');
-
+    console.log(isChecked);
     const myOptionData = {optionId:optionId,myOption:myOption,isChecked:isChecked};
 
     $.ajax({
@@ -107,8 +107,6 @@ $(".starting").on('click','.remove-option',function(){
     
     let temp = $(this);
     const context = {mcq_choice_id:mcq_choice_id}
-
-    console.log(mcq_choice_id);
 
     $.ajax({
             cache : false,
@@ -160,9 +158,7 @@ $(".starting").on('click', '#add-question', function(){
             headers: {'X-CSRFToken': csr},
             data: '',
             dataType:"json",
-            success: function(data){
-                console.log(data.newques);
-                
+            success: function(data){                
                 //$("#"+data.newques).load(" #"+data.newques);
                 $(".starting").load(document.URL + " .starting");
             },
@@ -172,7 +168,7 @@ $(".starting").on('click', '#add-question', function(){
 })
 
 //deleting questions
-$("#question_div").on('click', '.btn-danger', function(){
+$(".starting").on('click', '.btn-danger', function(){
 
     let del_qid = $(this).data('id');
     const myDelData = {del_qid:del_qid};
@@ -185,7 +181,7 @@ $("#question_div").on('click', '.btn-danger', function(){
         headers: {'X-CSRFToken': csr},
         data: myDelData,
         success: function(data){
-            console.log("Deleted Question "+del_qid); 
+            console.log("Deleted Question"); 
             $(temp).fadeOut(200, function() {
                 $(temp).parent().parent().parent().remove(); 
             }); 
