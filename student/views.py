@@ -38,19 +38,19 @@ def dashboard(request):
 
 
 def coursePage(request, coursePk):
+    form = ExamForm()
+    exams = Exam.objects.filter(course=coursePk)
+    context = {'exams': exams,
+               'form': form}
+    return render(request, 'student/exams.html', context)
 
-        form = ExamForm()
-        exams = Exam.objects.filter(course=coursePk)
-        context = {'exams': exams,
-                   'form': form}
-        return render(request, 'student/exams.html', context)
 
-def examFormPage(request,examPk):
+def examFormPage(request, examPk):
     exam = Exam.objects.get(pk=examPk)
     try:
         form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
     except Form.DoesNotExist:
         form = []
-    context = {'exam':exam,
-                'form':form}
+    context = {'exam': exam,
+               'form': form}
     return render(request, 'student/examForm.html', context)
