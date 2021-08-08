@@ -49,8 +49,12 @@ def examFormPage(request, examPk):
     exam = Exam.objects.get(pk=examPk)
     try:
         form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+        questions = form.questions.all()
+        total = questions.count()
     except Form.DoesNotExist:
         form = []
     context = {'exam': exam,
-               'form': form}
+               'form': form,
+               'total': total
+               }
     return render(request, 'student/examForm.html', context)
