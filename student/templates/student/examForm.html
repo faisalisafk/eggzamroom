@@ -18,15 +18,16 @@
     <div class="d-flex justify-content-center row">
         <div class="col-md-10 col-lg-10">
             <div class="border">
-                <div class="question bg-white p-3 border-bottom">
+                <div class="question bg-info p-3 border-bottom">
                     <div class="d-flex flex-row justify-content-between align-items-center mcq">
-                        <h3>{{exam.title}}</h3> <span id="total" value="{{totalQuestion}}">Total Questions: {{totalQuestion}}</span>
-                        <p>Total Mark: {{totalMark}}</p>
+                        <h4>{{exam.title}}</h4> 
+                        <h4 id="total" value="{{totalQuestion}}">Total Questions: {{totalQuestion}}</h4>
+                        <h4>Total Mark: {{totalMark}}</h4>
                     </div>
                 </div>
 
                 {% for q in form.questions.all %}
-                <div class="question bg-white p-3 border-bottom" id="{{forloop.counter}}">
+                <div class="question bg-light p-3 border-bottom" id="{{forloop.counter}}">
 
                     <div class="d-flex flex-row align-items-center question-title">                   
                         <div class="col-1">
@@ -35,7 +36,7 @@
                         <div class="col-8">
                             <h4>{{q.question_title}}</h4>
                         </div>
-                        <div class="col-2">
+                        <div style ="margin-left: auto;" class="col-auto">
                             <h6>Points: {{q.question_score}}</h6>
                         </div>                 
                     </div>
@@ -65,7 +66,6 @@
         <ul id="pagination-demo" class="pagination-sm"></ul>
       </div>
     </div>
-    <div id="page-content" class="page-content">Page 1</div>
 
   </div>
 </div>
