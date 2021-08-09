@@ -6,7 +6,7 @@ let total = $("#total").attr("value");
 
 $('#pagination-demo').twbsPagination({
     totalPages: total,
-    visiblePages: 6,
+    visiblePages: total,
     next: 'Next',
     prev: 'Prev',
     onPageClick: function (event, page) {

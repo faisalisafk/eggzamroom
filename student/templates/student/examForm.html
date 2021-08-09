@@ -20,31 +20,29 @@
             <div class="border">
                 <div class="question bg-white p-3 border-bottom">
                     <div class="d-flex flex-row justify-content-between align-items-center mcq">
-                        <h3>{{exam.title}}</h3> <span id="total" value="{{total}}">Total Questions: {{total}}</span>
-                        <p>{{form.description}}</p>
+                        <h3>{{exam.title}}</h3> <span id="total" value="{{totalQuestion}}">Total Questions: {{totalQuestion}}</span>
+                        <p>Total Mark: {{totalMark}}</p>
                     </div>
                 </div>
 
                 {% for q in form.questions.all %}
                 <div class="question bg-white p-3 border-bottom" id="{{forloop.counter}}">
                     <div class="d-flex flex-row align-items-center question-title">
-                        <h3 class="text-danger">Q {{forloop.counter}}.</h3>
-                        <h5 class="mt-1 ml-2">{{q.question_title}}</h5>
+                        <h2 class="text-danger">Q {{forloop.counter}}.</h2>
+                        <h4 class="mt-1 ml-2">{{q.question_title}}</h4>
                         <p style="padding-right: 60px; position: absolute; right: 0; color: grey; font-weight: 500;">Points: {{q.question_score}}</p>
 
                     </div>
 
                     {% for choice in q.choices.all %}
-                    <div class="ans ml-2">
-                        <label class="radio"> <input type="radio" name="{{q.id}}" value="{{choice.id}}"> <span>{{choice.question_choice}} ABC</span>
+                    <div style="font-size: 120%;" class="ans ml-2">
+                        <label class="radio"> <input type="radio" name="{{q.id}}" value="{{choice.id}}"> <span>{{choice.question_choice}} </span>
                         </label>
                     </div>
                     {% endfor %}
                 </div>
                 {% endfor %}
-
-                <div class="d-flex flex-row justify-content-between align-items-center p-3 bg-white"><button class="btn btn-primary d-flex align-items-center btn-danger" type="button"><i class="fa fa-angle-left mt-1 mr-1"></i>&nbsp;previous</button><button class="btn btn-primary border-success align-items-center btn-success" type="button">Next<i class="fa fa-angle-right ml-2"></i></button></div>
-            </div>
+             </div>
         </div>
     </div>
 

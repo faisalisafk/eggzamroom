@@ -50,11 +50,17 @@ def examFormPage(request, examPk):
     try:
         form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
         questions = form.questions.all()
-        total = questions.count()
+        totalQuestion = questions.count()
+        totalMark = 0
+        for q in questions:
+            totalMark = totalMark + q.question_score
     except Form.DoesNotExist:
+        totalMark = 0
         form = []
+        totalQuestion = 0
     context = {'exam': exam,
                'form': form,
-               'total': total
+               'totalQuestion': totalQuestion,
+               'totalMark': totalMark,
                }
     return render(request, 'student/examForm.html', context)
