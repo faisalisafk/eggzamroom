@@ -12,5 +12,20 @@ $('#pagination-demo').twbsPagination({
     onPageClick: function (event, page) {
         //fetch content and render here
         $('#page-content').text('Page ' + page) + ' content here';
+        //$("#"+page).removeAttribute("hidden");
+        HideQuestions();
+        ShowQuestion(page);
     }
 });
+
+function HideQuestions(){
+    for(let i = 1; i <= total; i++)
+    {
+        $("#"+i).hide();
+        //console.log(i);
+    }
+}
+
+function ShowQuestion(x){
+    $("#"+x).show();
+}
