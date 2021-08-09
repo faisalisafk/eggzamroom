@@ -56,4 +56,4 @@ class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choices')
 
     def __str__(self):
-        return "belongs to " + self.question.__str__()
+        return self.question_choice

@@ -1,7 +1,7 @@
 /*$( "#btnClick" ).click(function() {
   alert( "Handler for .click() called." );
 });*/ //test for jquery run hoy kina
-
+let csr = $("input[name=csrfmiddlewaretoken").val();
 let total = $("#total").attr("value");
 
 $('#pagination-demo').twbsPagination({
@@ -34,10 +34,23 @@ function ShowQuestion(x){
 
 $("input").click(function() {
     
-    console.log("Choice key - ",$(this).val());
-    console.log($(this).attr('name'));
+    optionChecked = $(this).val();
+    questionId = $(this).attr('name');
     //let quesNo = $(this).parent().parent().parent().attr('id');
     console.log(window.value);
+    console.log(optionChecked)
+    console.log(questionId)
+    const myData = {optionChecked:optionChecked,questionId:questionId };
 
+    $.ajax({
+        cache : false,
+        url: "saveAnswer",
+        method: "POST",
+        headers: {'X-CSRFToken': csr},
+        data: myData,
+        success: function(data){
+            console.log("well");
+        },
+    });
 
  });

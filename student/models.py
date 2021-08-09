@@ -1,7 +1,8 @@
 import uuid
 from django.db import models
+from django.db.models.base import Model
 from accounts.models import User
-from teacher.models import Course
+from teacher.models import Course, Form, Question,Choice
 
 
 class Student(models.Model):
@@ -12,3 +13,8 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Answer(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.CASCADE)
+    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    givenAnswer = models.ForeignKey(Choice,on_delete=models.CASCADE)

@@ -1,10 +1,10 @@
 import requests
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
-
+from django.http.response import JsonResponse
 from django.apps import apps
 from accounts.models import User
-from teacher.models import Course, Exam, Form
-from student.models import Student
+from teacher.models import Choice, Course, Exam, Form, Question
+from student.models import Answer, Student
 from .forms import CourseJoinForm
 from teacher.forms import ExamForm
 
@@ -64,3 +64,15 @@ def examFormPage(request, examPk):
                'totalMark': totalMark,
                }
     return render(request, 'student/examForm.html', context)
+
+def saveAnswer(request, examPk):
+    temp = Answer.objects.filter(student=request.user.pk,question=request.POST["questionId"])
+    if temp.exists():
+        temp.update(givenAnswer=request.POST["optionChecked"]) 
+    else:
+        s = Student.objects.get(pk = request.user.pk)
+        q = Question.objects.get(pk = request.POST["questionId"])
+        c = Choice.objects.get(pk = request.POST["optionChecked"])
+        newAnswer = Answer(student=s,question=q,givenAnswer=c)
+        newAnswer.save()
+    return JsonResponse({'status': 'Save'})
