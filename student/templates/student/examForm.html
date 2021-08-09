@@ -27,13 +27,19 @@
 
                 {% for q in form.questions.all %}
                 <div class="question bg-white p-3 border-bottom" id="{{forloop.counter}}">
-                    <div class="d-flex flex-row align-items-center question-title">
-                        <h2 class="text-danger">Q {{forloop.counter}}.</h2>
-                        <h4 class="mt-1 ml-2">{{q.question_title}}</h4>
-                        <p style="padding-right: 60px; position: absolute; right: 0; color: grey; font-weight: 500;">Points: {{q.question_score}}</p>
 
+                    <div class="d-flex flex-row align-items-center question-title">                   
+                        <div class="col-1">
+                             <h2 class="text-danger">Q{{forloop.counter}}.</h2>
+                        </div>
+                        <div class="col-8">
+                            <h4>{{q.question_title}}</h4>
+                        </div>
+                        <div class="col-2">
+                            <h6>Points: {{q.question_score}}</h6>
+                        </div>                 
                     </div>
-
+                    <br>
                     {% for choice in q.choices.all %}
                     <div style="font-size: 120%;" class="ans ml-2">
                         <label class="radio"> <input type="radio" name="{{q.id}}" value="{{choice.id}}"> <span>{{choice.question_choice}} </span>
