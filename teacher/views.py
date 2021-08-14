@@ -129,7 +129,6 @@ def deleteOption(request, examPk):
     if request.method == 'POST':
         # choice_id = request.POST.get('mcq_choice_id', False)
         choice_id = request.POST['mcq_choice_id']
-        print(choice_id)
         choice = Choice.objects.filter(pk=choice_id)
         choice.delete()
         return JsonResponse({'status': 'Save'})
@@ -151,9 +150,7 @@ def addOption(request, examPk):
 def addQuestion(request, examPk):
     if request.method == 'POST':
         exam = Exam.objects.get(pk=examPk)
-        print(exam.title)
-        form = Form.objects.get(exam=exam)
-        print(form.title)
+        form = Form.objects.get(exam=exam)       
         added_question = Question(question_title="New Question", question_type="mcq", question_score="1", form=form)
         added_question.save()
         tempPk = added_question.pk 
