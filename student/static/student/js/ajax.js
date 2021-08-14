@@ -49,7 +49,7 @@ $("input").click(function() {
         headers: {'X-CSRFToken': csr},
         data: myData,
         success: function(data){
-            console.log("well");
+            console.log("Got this answer");
         },
     });
 
