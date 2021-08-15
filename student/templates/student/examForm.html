@@ -43,7 +43,14 @@
                     <br>
                     {% for choice in q.choices.all %}
                     <div style="font-size: 120%;" class="ans ml-2">
-                        <label class="radio"> <input type="radio" name="{{q.id}}" value="{{choice.id}}"> <span>{{choice.question_choice}} </span>
+                        <label class="radio"> 
+                        <input type="radio" name="{{q.id}}" value="{{choice.id}}" 
+                        {% for a in answered %}
+                            {% if a.givenAnswer.id == choice.id%}
+                                checked
+                            {% endif %}
+                        {% endfor %}> 
+                        <span>{{choice.question_choice}} </span>
                         </label>
                     </div>
                     {% endfor %}

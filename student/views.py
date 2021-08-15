@@ -47,7 +47,10 @@ def coursePage(request, coursePk):
 
 def examFormPage(request, examPk):
     exam = Exam.objects.get(pk=examPk)
-    try:
+    answered = Answer.objects.filter(student=request.user.pk,form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
+    if not answered.exists():
+        answered = []
+    try:        
         form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
         questions = form.questions.all()
         totalQuestion = questions.count()
@@ -62,6 +65,7 @@ def examFormPage(request, examPk):
                'form': form,
                'totalQuestion': totalQuestion,
                'totalMark': totalMark,
+               'answered' : answered,
                }
     return render(request, 'student/examForm.html', context)
 
@@ -71,8 +75,9 @@ def saveAnswer(request, examPk):
         temp.update(givenAnswer=request.POST["optionChecked"]) 
     else:
         s = Student.objects.get(pk = request.user.pk)
+        f = Form.objects.get(exam = Exam.objects.get(pk=examPk))
         q = Question.objects.get(pk = request.POST["questionId"])
         c = Choice.objects.get(pk = request.POST["optionChecked"])
-        newAnswer = Answer(student=s,question=q,givenAnswer=c)
+        newAnswer = Answer(student=s,form=f,question=q,givenAnswer=c)
         newAnswer.save()
     return JsonResponse({'status': 'Save'})
