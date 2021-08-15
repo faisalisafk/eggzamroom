@@ -4,6 +4,21 @@
 let csr = $("input[name=csrfmiddlewaretoken").val();
 let total = $("#total").attr("value");
 
+$(document).ready(function () { 
+    //Disable cut copy paste 
+    $('.border').bind('cut copy paste', function (e) { 
+        e.preventDefault(); 
+    }); 
+    
+    //Disable mouse right click 
+    $(".border").on("contextmenu",function(e){ 
+        return false; 
+    });
+    
+}); 
+
+
+
 $('#pagination-demo').twbsPagination({
     totalPages: total,
     visiblePages: total,
@@ -37,9 +52,6 @@ $("input").click(function() {
     optionChecked = $(this).val();
     questionId = $(this).attr('name');
     //let quesNo = $(this).parent().parent().parent().attr('id');
-    console.log(window.value);
-    console.log(optionChecked)
-    console.log(questionId)
     const myData = {optionChecked:optionChecked,questionId:questionId };
 
     $.ajax({
@@ -49,7 +61,7 @@ $("input").click(function() {
         headers: {'X-CSRFToken': csr},
         data: myData,
         success: function(data){
-            console.log("Got this answer");
+            console.log("Got answer");
         },
     });
 
