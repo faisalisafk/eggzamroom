@@ -6,25 +6,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    
-<style>
-
-.preventcopy {
--webkit-touch-callout: none; iOS Safari
--webkit-user-select: none; Chrome/Safari/Opera
--khtml-user-select: none; Konqueror
--moz-user-select: none; Firefox
--ms-user-select: none; Internet Explorer/Edge
-user-select: none; Non-prefixed version, currently
-not supported by any browser
-}
-</style>
-
-
     {% endblock %}
 
-
 {% block popup %}
+    <a class="btn btn-outline-success" href="/student/{{form.pk}}/submit" style="margin:6px">Submit</a>
 {%endblock%}
 
 {% block body %}

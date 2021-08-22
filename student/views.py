@@ -1,10 +1,11 @@
+import student
 import requests
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
 from django.http.response import JsonResponse
 from django.apps import apps
 from accounts.models import User
 from teacher.models import Choice, Course, Exam, Form, Question
-from student.models import Answer, Student
+from student.models import Answer, Student ,SubmittedForm
 from .forms import CourseJoinForm
 from teacher.forms import ExamForm
 
@@ -46,6 +47,12 @@ def coursePage(request, coursePk):
 
 
 def examFormPage(request, examPk):
+    form=Form.objects.get(exam=Exam.objects.get(pk=examPk))
+    sf = SubmittedForm.objects.filter(student=request.user.pk,form = form)
+    if sf.exists():
+        context = {'form': form,}
+        return render(request, 'student/success.html',context) 
+        
     exam = Exam.objects.get(pk=examPk)
     answered = Answer.objects.filter(student=request.user.pk,form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
     if not answered.exists():
@@ -81,3 +88,10 @@ def saveAnswer(request, examPk):
         newAnswer = Answer(student=s,form=f,question=q,givenAnswer=c)
         newAnswer.save()
     return JsonResponse({'status': 'Save'})
+
+def submit(request, formPk):
+    form = Form.objects.get(pk = formPk)
+    newSubmittedForm = SubmittedForm(student=Student.objects.get(pk = request.user.pk),form = form)
+    newSubmittedForm.save()
+    context = {'form': form,}
+    return render(request, 'student/success.html',context) 
