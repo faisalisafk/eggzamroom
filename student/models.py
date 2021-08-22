@@ -19,3 +19,7 @@ class Answer(models.Model):
     form = models.ForeignKey(Form,on_delete=models.CASCADE,blank=True,null=True)
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
     givenAnswer = models.ForeignKey(Choice,on_delete=models.CASCADE)
+
+class SubmittedForm(models.Model):
+    student = models.ForeignKey(Student,on_delete=models.CASCADE)
+    form = models.ForeignKey(Form,on_delete=models.CASCADE,blank=True,null=True)
