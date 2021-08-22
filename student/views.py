@@ -81,3 +81,8 @@ def saveAnswer(request, examPk):
         newAnswer = Answer(student=s,form=f,question=q,givenAnswer=c)
         newAnswer.save()
     return JsonResponse({'status': 'Save'})
+
+def submit(request, formPk):
+    form = Form.objects.get(pk = formPk)
+    context = {'form': form,}
+    return render(request, 'student/success.html',context) 
