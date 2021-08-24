@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 import student
 import requests
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
@@ -5,7 +7,7 @@ from django.http.response import JsonResponse
 from django.apps import apps
 from accounts.models import User
 from teacher.models import Choice, Course, Exam, Form, Question
-from student.models import Answer, Student ,SubmittedForm
+from student.models import Answer, Student ,SubmittedForm, StudentWindowDetectionLog
 from .forms import CourseJoinForm
 from teacher.forms import ExamForm
 
@@ -97,4 +99,36 @@ def submit(request, formPk):
     newSubmittedForm = SubmittedForm(student=Student.objects.get(pk = request.user.pk),form = form)
     newSubmittedForm.save()
     context = {'form': form,}
-    return render(request, 'student/success.html',context) 
+    return render(request, 'student/success.html',context)
+
+
+def WindowDetectionLog(request, examPk):
+    student = Student.objects.get(pk=request.user.pk)
+    form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+
+    # log = get_object_or_404(StudentWindowDetectionLog, student=student, form=form)
+    # print(log)
+
+    try:
+        log = StudentWindowDetectionLog.objects.get(student=student)
+    except ObjectDoesNotExist:
+        log = StudentWindowDetectionLog(student=student, form=form, start_time=" ", end_time=" ")
+        log.save()
+
+    # if not log:
+    #    log = StudentWindowDetectionLog(student=student, form=form, start_time=" ", end_time=" ")
+    #    log.save()
+
+    focused = request.POST.get("focused", 0)
+    blurred = request.POST.get("blurred", 0)
+
+    if blurred:
+        log.start_time += " <-> " + blurred
+        log.save()
+    else:
+        log.end_time += " <-> " + focused
+        log.save()
+
+    return JsonResponse({'status': 'Save'})
+
+    # StudentWindowDetectionLog(student=student, form=form)

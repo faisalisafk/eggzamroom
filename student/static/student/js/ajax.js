@@ -66,3 +66,43 @@ $("input").click(function() {
     });
 
  });
+
+
+ $(window).blur(function() {
+      siteTitle = document.title;
+      document.title = 'Warning! Please Return';
+      var blank = new Date();
+      var blurred = new Date().toLocaleString();
+      const myData = { blurred : blurred, blank: blank };
+
+          $.ajax({
+        cache : false,
+        url: "detectionlog",
+        method: "POST",
+        headers: {'X-CSRFToken': csr},
+        data: myData,
+        success: function(data){
+            console.log(blurred + "start time logged!");
+        },
+    });
+});
+
+$(window).focus(function() {
+    document.title = siteTitle;
+    var blank = new Date();
+    var focused = new Date().toLocaleString();
+    const myData = { focused : focused, blank: blank };
+
+
+        $.ajax({
+        cache : false,
+        url: "detectionlog",
+        method: "POST",
+        headers: {'X-CSRFToken': csr},
+        data: myData,
+        success: function(data){
+            console.log(focused + "end time logged!");
+        },
+    });
+})
+

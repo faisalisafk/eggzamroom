@@ -23,3 +23,13 @@ class Answer(models.Model):
 class SubmittedForm(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     form = models.ForeignKey(Form,on_delete=models.CASCADE,blank=True,null=True)
+
+
+class StudentWindowDetectionLog(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, blank=True, null=True)
+    start_time = models.CharField(max_length=5000, blank=True, null=True)
+    end_time = models.CharField(max_length=5000, blank=True, null=True)
+
+    def __str__(self):
+        return self.student.user.username + "'s browser focus checks for the exam of" + self.form.exam.title
