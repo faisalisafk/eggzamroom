@@ -168,8 +168,7 @@ def delQuestion(request, examPk):
     else:
         return JsonResponse({'status': 0})
 
-def toggleForm(request, formPk):
-    
+def toggleForm(request, formPk):   
     form = Form.objects.get(pk=formPk)
     exam = Exam.objects.get(pk =form.exam.pk)
     if form.status:
