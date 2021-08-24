@@ -167,3 +167,22 @@ def delQuestion(request, examPk):
         return JsonResponse({'status': 'Save'})
     else:
         return JsonResponse({'status': 0})
+
+def toggleForm(request, formPk):
+    
+    form = Form.objects.get(pk=formPk)
+    exam = Exam.objects.get(pk =form.exam.pk)
+    if form.status:
+        form.status = False
+        form.save()   
+        context = {'exam': exam,
+               'form': form}
+        return render(request, 'teacher/form.html', context)
+        
+    else :
+        form.status = True
+        form.save()
+        context = {'exam': exam,
+               'form': form}
+        return render(request, 'teacher/form.html', context)
+        

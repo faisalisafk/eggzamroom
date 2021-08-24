@@ -7,7 +7,13 @@
     <link rel="stylesheet" href="{% static 'teacher/css/HurlUI.css' %}">
 
     {% endblock %}
-{% block popup %}  {%endblock%}
+{% block popup %} 
+    {% if form.status %}
+        <a class="btn btn-outline-danger" href="/teacher/{{form.pk}}/toggle" style="margin:6px">End?</a>
+    {% else %}
+        <a class="btn btn-outline-success" href="/teacher/{{form.pk}}/toggle" style="margin:6px">Start?</a>
+    {% endif %}
+{%endblock%}
 
 {% block body %}
 <h3 style="margin-left: 25px">Exam Form : {{exam.title.upper}}</h3>
