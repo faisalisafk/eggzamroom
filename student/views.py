@@ -48,10 +48,13 @@ def coursePage(request, coursePk):
 
 def examFormPage(request, examPk):
     form=Form.objects.get(exam=Exam.objects.get(pk=examPk))
-    sf = SubmittedForm.objects.filter(student=request.user.pk,form = form)
+    sf = SubmittedForm.objects.filter(student=request.user.pk,form = form)  
+
     if sf.exists():
         context = {'form': form,}
         return render(request, 'student/success.html',context) 
+    if(form.status==False):
+        return render(request,'student/notStarted.html')
         
     exam = Exam.objects.get(pk=examPk)
     answered = Answer.objects.filter(student=request.user.pk,form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
