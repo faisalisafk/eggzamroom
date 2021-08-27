@@ -75,14 +75,14 @@ $("input").click(function() {
       var blurred = new Date().toLocaleString();
       const myData = { blurred : blurred, blank: blank };
 
-          $.ajax({
+        $.ajax({
         cache : false,
         url: "detectionlog",
         method: "POST",
         headers: {'X-CSRFToken': csr},
         data: myData,
         success: function(data){
-            console.log(blurred + "start time logged!");
+            console.log(blurred + " start time logged!");
         },
     });
 });
@@ -101,7 +101,7 @@ $(window).focus(function() {
         headers: {'X-CSRFToken': csr},
         data: myData,
         success: function(data){
-            console.log(focused + "end time logged!");
+            console.log(focused + " end time logged!");
         },
     });
 })

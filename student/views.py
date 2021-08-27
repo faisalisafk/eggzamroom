@@ -103,31 +103,35 @@ def submit(request, formPk):
 
 
 def WindowDetectionLog(request, examPk):
-    student = Student.objects.get(pk=request.user.pk)
+    student = Student.objects.get(pk = request.user.pk)
     form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
-
-    # log = get_object_or_404(StudentWindowDetectionLog, student=student, form=form)
-    # print(log)
-
-    try:
-        log = StudentWindowDetectionLog.objects.get(student=student)
-    except ObjectDoesNotExist:
-        log = StudentWindowDetectionLog(student=student, form=form, start_time=" ", end_time=" ")
-        log.save()
-
-    # if not log:
-    #    log = StudentWindowDetectionLog(student=student, form=form, start_time=" ", end_time=" ")
-    #    log.save()
-
+    log = StudentWindowDetectionLog.objects.filter(student=student,form=form)
     focused = request.POST.get("focused", 0)
     blurred = request.POST.get("blurred", 0)
+    
+    if log.exists():   
+        
+        if blurred:       
+            x = log[0].start_time + " <-> " + blurred
+            log.update(start_time = x)
+    
+        elif focused:
+            y =log[0].end_time + " <-> " + focused
+            log.update(end_time = y)
 
-    if blurred:
-        log.start_time += " <-> " + blurred
-        log.save()
     else:
-        log.end_time += " <-> " + focused
-        log.save()
+        if blurred:           
+            log = StudentWindowDetectionLog(student=student, form=form, start_time=blurred, end_time="")
+            log.save()
+        
+        elif focused:
+            log = StudentWindowDetectionLog(student=student, form=form, start_time="", end_time=focused)
+            log.save()
+
+    
+
+    
+    
 
     return JsonResponse({'status': 'Save'})
 
