@@ -30,7 +30,12 @@
       <td>{{l.student}}</td>
       <td>{{l.student.user}}</td>
       <td>{{l.totalSeconds}}</td>
-      <td> NO</td>
+      <td> {% if l.student.pk in submit %}
+            Yes
+            {% else %}
+            No
+            {% endif %}  
+      </td>
   {% endfor %}
   </tbody>
 </table>
