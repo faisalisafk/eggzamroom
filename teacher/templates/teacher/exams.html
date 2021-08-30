@@ -31,13 +31,13 @@
                 <div class="card-header bg-warning text-truncate text-light">
                     <a class="card-title text-light" href="/teacher/exam/{{e.pk}}" } style="font-weight: bold;
                      font-size: 18px;">Exam title: {{e.title}}</a>
-                    <p class="card-subtitle mb-2 text-light">Course Code : {{c.courseCode}}</p>
+                    
                 </div>
 
               <div class="card-body">
                   <p class="card-text">Exam Course: {{e.course.title}}</p>
                   <p class="card-text">Exam description: {{e.description}} </p>
-                  <p class="card-text">primary key : {{e.pk}}</p>
+                  <a class="card-text" href="/teacher/{{e.pk}}/viewScore">View Score</a>
               </div>
             </div>
         </div>

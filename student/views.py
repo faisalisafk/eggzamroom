@@ -103,31 +103,49 @@ def submit(request, formPk):
 
 
 def WindowDetectionLog(request, examPk):
-    student = Student.objects.get(pk=request.user.pk)
+    student = Student.objects.get(pk = request.user.pk)
     form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
-
-    # log = get_object_or_404(StudentWindowDetectionLog, student=student, form=form)
-    # print(log)
-
-    try:
-        log = StudentWindowDetectionLog.objects.get(student=student)
-    except ObjectDoesNotExist:
-        log = StudentWindowDetectionLog(student=student, form=form, start_time=" ", end_time=" ")
-        log.save()
-
-    # if not log:
-    #    log = StudentWindowDetectionLog(student=student, form=form, start_time=" ", end_time=" ")
-    #    log.save()
-
+    log = StudentWindowDetectionLog.objects.filter(student=student,form=form)
     focused = request.POST.get("focused", 0)
-    blurred = request.POST.get("blurred", 0)
+    blurred = request.POST.get("blurred", 0)  
 
-    if blurred:
-        log.start_time += " <-> " + blurred
-        log.save()
+
+    if log.exists():   
+        
+        if blurred:       
+            x = log[0].start_time + " <-> " + blurred
+            log.update(start_time = x)
+    
+        elif focused:
+            temp = log[0].start_time
+            temp = temp.rsplit("<->",1)[1]
+            temp = temp.split(",")[1]
+            temp = temp.split(":")
+            hour,minute,second = float(temp[0]),float(temp[1]),float(temp[2].split(" ")[0])
+            
+            foc = focused.split(",")[1]
+            foc = foc.split(":")
+            h,m,s = float(foc[0]),float(foc[1]),float(foc[2].split(" ")[0])
+
+            total = int((h-hour) * 3600 + (m - minute) * 60 + (s - second))
+
+            y =log[0].end_time + " <-> " + focused
+            log.update(end_time = y)
+
+            z = log[0].totalSeconds + total
+            log.update(totalSeconds=z)
+            
+
     else:
-        log.end_time += " <-> " + focused
-        log.save()
+        if blurred:           
+            log = StudentWindowDetectionLog(student=student, form=form, start_time= " <-> " +blurred, end_time="",totalSeconds=0)
+            log.save()
+            
+        
+        elif focused:
+            log = StudentWindowDetectionLog(student=student, form=form, start_time="", end_time=focused)
+            log.save()
+            
 
     return JsonResponse({'status': 'Save'})
 

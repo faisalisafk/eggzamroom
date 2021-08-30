@@ -12,7 +12,7 @@ class Student(models.Model):
     # exams = models.ManyToManyField(Exam, through='TakenExam')
 
     def __str__(self):
-        return self.user.username
+        return self.user.firstName + " " + self.user.lastName
 
 class Answer(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
@@ -30,6 +30,7 @@ class StudentWindowDetectionLog(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE, blank=True, null=True)
     start_time = models.CharField(max_length=5000, blank=True, null=True)
     end_time = models.CharField(max_length=5000, blank=True, null=True)
+    totalSeconds = models.IntegerField(null=True)
 
     def __str__(self):
         return self.student.user.username + "'s browser focus checks for the exam of" + self.form.exam.title
