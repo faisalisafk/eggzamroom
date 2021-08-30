@@ -185,3 +185,5 @@ def toggleForm(request, formPk):
                'form': form}
         return render(request, 'teacher/form.html', context)
         
+def viewScore(request, examPk):
+    return render(request,'teacher/viewScore.html')

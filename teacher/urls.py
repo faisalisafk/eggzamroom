@@ -16,4 +16,5 @@ urlpatterns = [
     path('exam/<int:examPk>/addQuestion', views.addQuestion, name='addQuestion'),
     path('exam/<int:examPk>/delQuestion', views.delQuestion, name='delQuestion'),
     path('<int:formPk>/toggle',views.toggleForm, name='toggleForm'),
+    path('<int:examPk>/viewScore',views.viewScore, name='viewScore'),
 ]
