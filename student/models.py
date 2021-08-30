@@ -30,6 +30,7 @@ class StudentWindowDetectionLog(models.Model):
     form = models.ForeignKey(Form, on_delete=models.CASCADE, blank=True, null=True)
     start_time = models.CharField(max_length=5000, blank=True, null=True)
     end_time = models.CharField(max_length=5000, blank=True, null=True)
+    totalSeconds = models.IntegerField(null=True)
 
     def __str__(self):
         return self.student.user.username + "'s browser focus checks for the exam of" + self.form.exam.title

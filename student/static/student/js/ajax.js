@@ -102,6 +102,7 @@ $(window).focus(function() {
         data: myData,
         success: function(data){
             console.log(focused + " end time logged!");
+            
         },
     });
 })
