@@ -1,11 +1,12 @@
+from student.views import submit
 from django.http.response import JsonResponse
 import requests, json
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
-
+import pickle
 from django.apps import apps
 from accounts.models import User, Teacher
-from .models import Course, Exam, Form, Question, Choice
-from student.models import  Student , StudentWindowDetectionLog
+from .models import Course, Exam, Form, Question, Choice 
+from student.models import  Student , StudentWindowDetectionLog, SubmittedForm
 from .forms import CourseForm, ExamForm
 
 
@@ -190,8 +191,11 @@ def viewScore(request, examPk):
 
     form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
     log = StudentWindowDetectionLog.objects.filter(form=form)
-
+    
+    submitted = StudentWindowDetectionLog.objects.filter(form=form)
+   
     context = {'form':form,
+                'submit':submitted, 
                 'log':log}
 
     return render(request,'teacher/viewScore.html',context)

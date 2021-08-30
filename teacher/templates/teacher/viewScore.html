@@ -6,7 +6,7 @@
 {% block body %}
 
 
-<div class="d-flex justify-content-center bg-secondary mb-3">
+<div class="d-flex justify-content-center mb-3">
     <h1>Score page for {{form.title}}</h1>
 </div>
 
@@ -17,20 +17,21 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">Student Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Cheat Timer (in seconds)</th>
+      <th scope="col">Submitted</th>
     </tr>
   </thead>
   <tbody>
-  {%for%}
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    
+  {% for l in log %}
+    <tr {%if l.totalSeconds > 16%} class="table-danger" {% endif %}>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{l.student}}</td>
+      <td>{{l.student.user}}</td>
+      <td>{{l.totalSeconds}}</td>
+      <td> NO</td>
+  {% endfor %}
   </tbody>
 </table>
 </div>
@@ -38,8 +39,10 @@
 
 {% else %}
 
-<p>No responses yet!!!</p>
 
+<div class="container">
+<center><h2 class="display-4">No responses yet!!!</h2></center>
+</div>
 {% endif %}
 
 </center>

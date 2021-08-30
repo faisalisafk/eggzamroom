@@ -12,7 +12,7 @@ class Student(models.Model):
     # exams = models.ManyToManyField(Exam, through='TakenExam')
 
     def __str__(self):
-        return self.user.username
+        return self.user.firstName + " " + self.user.lastName
 
 class Answer(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
