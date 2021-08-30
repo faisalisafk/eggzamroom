@@ -7,8 +7,40 @@
 
 
 <div class="d-flex justify-content-center bg-secondary mb-3">
-    <h1>Dear {{user.firstName}},<br>You are in view score page </h1>
-
+    <h1>Score page for {{form.title}}</h1>
 </div>
 
+
+{% if log %}
+<div class="container">
+<table class="table table-hover" cellspacing="50" >
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%for%}
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    
+  </tbody>
+</table>
+</div>
+
+
+{% else %}
+
+<p>No responses yet!!!</p>
+
+{% endif %}
+
+</center>
 {% endblock %}

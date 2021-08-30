@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirec
 from django.apps import apps
 from accounts.models import User, Teacher
 from .models import Course, Exam, Form, Question, Choice
+from student.models import  Student , StudentWindowDetectionLog
 from .forms import CourseForm, ExamForm
 
 
@@ -187,4 +188,10 @@ def toggleForm(request, formPk):
         
 def viewScore(request, examPk):
 
-    return render(request,'teacher/viewScore.html')
+    form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+    log = StudentWindowDetectionLog.objects.filter(form=form)
+
+    context = {'form':form,
+                'log':log}
+
+    return render(request,'teacher/viewScore.html',context)
