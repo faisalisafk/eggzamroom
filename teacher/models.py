@@ -19,6 +19,9 @@ class Course(models.Model):
                 self.courseCode = uuid.uuid4().hex[:7].upper()
         super(Course, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return self.title
+
 
 class Exam(models.Model):
     title = models.CharField(max_length=30, null=False, blank=False)
@@ -27,19 +30,31 @@ class Exam(models.Model):
     endTime = models.DateTimeField().auto_created
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.title
+
 
 class Form(models.Model):
-    title = models.CharField(max_length=30, null=False, blank=False,default="Untitled Form")
-    description = models.TextField(max_length=100, null=False, blank=False,default="Untitled Description")
+    title = models.CharField(max_length=30, null=False, blank=False, default="Untitled Form")
+    description = models.TextField(max_length=100, null=False, blank=False, default="Untitled Description")
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+
 
 class Question(models.Model):
     question_title = models.TextField(max_length=200, null=False, blank=False)
-    question_type = models.CharField(max_length=20,null=False, blank=False)
-    question_score = models.PositiveIntegerField(null=False,blank=False)
-    form = models.ForeignKey(Form,on_delete=models.CASCADE, related_name='questions')
+    question_type = models.CharField(max_length=20, null=False, blank=False)
+    question_score = models.PositiveIntegerField(null=False, blank=False)
+    form = models.ForeignKey(Form, on_delete=models.CASCADE, related_name='questions')
+
+    def __str__(self):
+        return self.question_title
+
 
 class Choice(models.Model):
-    question_choice = models.CharField(max_length=20,null=False, blank=False)
-    is_answer = models.BooleanField(null=False,blank=False)
-    question = models.ForeignKey(Question,on_delete=models.CASCADE, related_name='choices')
+    question_choice = models.CharField(max_length=20, null=False, blank=False)
+    is_answer = models.BooleanField(null=False, blank=False)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='choices')
+
+    def __str__(self):
+        return self.question_choice

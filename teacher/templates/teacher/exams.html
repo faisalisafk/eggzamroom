@@ -11,7 +11,13 @@
 
 
 <section>
-    <div class="container">
+     <style type="text/css">
+        .main{
+            min-height: 70vh;
+            height: 100%;
+            }
+    </style>
+    <div class="container main">
 {% if not exams%}
 <div>
     <h2> No exams man!!! Create some</h2>
@@ -25,22 +31,13 @@
                 <div class="card-header bg-warning text-truncate text-light">
                     <a class="card-title text-light" href="/teacher/exam/{{e.pk}}" } style="font-weight: bold;
                      font-size: 18px;">Exam title: {{e.title}}</a>
-                    <p class="card-subtitle mb-2 text-light">Course Code : {{c.courseCode}}</p>
+                    
                 </div>
 
               <div class="card-body">
                   <p class="card-text">Exam Course: {{e.course.title}}</p>
                   <p class="card-text">Exam description: {{e.description}} </p>
-                  <p class="card-text">primary key : {{e.pk}} </p>
-
-                  <div class="dropdown">
-                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Edit/Delete </button>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Edit</a>
-                        <a class="dropdown-item" href="/teacher/deleteexam/{{e.pk}}">Delete</a>
-
-                      </div>
-                  </div>
+                  <a class="card-text" href="/teacher/{{e.pk}}/viewScore">View Score</a>
               </div>
             </div>
         </div>
