@@ -50,15 +50,15 @@ def coursePage(request, coursePk):
 
 def examFormPage(request, examPk):
     form=Form.objects.get(exam=Exam.objects.get(pk=examPk))
-    sf = SubmittedForm.objects.filter(student=request.user.pk,form = form)  
-
+    sf = SubmittedForm.objects.filter(student=request.user.pk,form = form)
+    exam = Exam.objects.get(pk=examPk)
     if sf.exists():
-        context = {'form': form,}
-        return render(request, 'student/success.html',context) 
+        context = {'form': form,
+                   'exam': exam,}
+        return render(request, 'student/already_submitted.html',context)
     if(form.status==False):
         return render(request,'student/notStarted.html')
-        
-    exam = Exam.objects.get(pk=examPk)
+
     answered = Answer.objects.filter(student=request.user.pk,form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
     if not answered.exists():
         answered = []
@@ -77,7 +77,7 @@ def examFormPage(request, examPk):
                'form': form,
                'totalQuestion': totalQuestion,
                'totalMark': totalMark,
-               'answered' : answered,
+               'answered': answered,
                }
     return render(request, 'student/examForm.html', context)
 
@@ -100,6 +100,47 @@ def submit(request, formPk):
     newSubmittedForm.save()
     context = {'form': form,}
     return render(request, 'student/success.html',context)
+
+def result(request, examPk):
+    exam = Exam.objects.get(pk=examPk)
+    form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+    questions = form.questions.all()
+    totalQuestion = questions.count()
+    totalMark = 0
+    totalMarkObtain = 0
+
+    answered = Answer.objects.filter(student=request.user.pk, form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
+    rightAnswer = []
+
+
+    for i in questions:
+        choices = Choice.objects.filter(question=i)
+        for c in choices:
+            if c.is_answer:
+                rightAnswer.append(c)
+        totalMark = totalMark + i.question_score
+        for a in answered:
+            if a.givenAnswer.is_answer and a.question == i:
+                totalMarkObtain = totalMarkObtain + i.question_score
+        #answer = Answer.objects.get(student=Student.objects.get(pk=request.user.pk), form=form, question=i)
+
+        #choice = Choice.objects.get(question=i, )
+
+        #Answer.objects.get(student=request.user.pk, question=Question.objects.get(id=i.id))
+        #choice = Choice.objects.get(student=student, question=Question.objects.get(id=i.id))
+        #choice = answer.givenAnswer
+        #if choice.is_answer:
+         #   totalMarkObtain = totalMarkObtain + i.question_score
+
+    context = {'exam': exam,
+               'form': form,
+               'totalQuestion': totalQuestion,
+               'totalMark': totalMark,
+               'totalMarkObtain': totalMarkObtain,
+               'answered': answered,
+               'rightAnswer': rightAnswer,
+               }
+    return render(request, 'student/result.html', context)
 
 
 def WindowDetectionLog(request, examPk):

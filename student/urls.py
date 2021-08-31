@@ -9,4 +9,5 @@ urlpatterns = [
     path('exam/<int:examPk>/saveAnswer', views.saveAnswer, name='saveAnswer'),
     path('exam/<int:examPk>/detectionlog', views.WindowDetectionLog, name='detectionlog'),
     path('<int:formPk>/submit',views.submit,name='submit'),
+    path('<int:examPk>/result', views.result, name='result'),
 ]
