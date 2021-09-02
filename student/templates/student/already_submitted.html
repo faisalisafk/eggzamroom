@@ -1,0 +1,20 @@
+{% extends "./base.html" %}
+
+{%block popup%}
+{%endblock%}
+
+{% block body %}
+
+
+<div class="d-flex justify-content-center bg-secondary mb-3">
+    <h1>{{user.firstName}},<br>You Have Already Submitted your response for {{form.title}}</h1>
+
+</div>
+<br>
+
+<div style="text-align:center">
+    <a class="btn btn-outline-success" href="/student/{{exam.pk}}/result" style="margin:10px;">Result</a>
+</div>
+
+
+{% endblock %}
