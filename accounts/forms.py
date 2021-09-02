@@ -10,8 +10,6 @@ from student.models import Student
 class StudentRegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=60, help_text='Required. Add a valid email address',
                              widget=forms.TextInput(attrs={'class': 'form-control'}))
-    studentID = forms.IntegerField(label="StudentID", help_text='Student ID.',
-                                   widget=forms.TextInput(attrs={'class': 'form-control'}))
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'type': 'password', 'placeholder': 'password'}),
                                 )
@@ -21,7 +19,7 @@ class StudentRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("studentID", "email", "username", "firstName", "lastName", "password1", "password2")
+        fields = ("email", "username", "firstName", "lastName", "password1", "password2")
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'text-align': 'center'}),
             'lastName': forms.TextInput(attrs={'class': 'form-control'}),
@@ -34,7 +32,7 @@ class StudentRegistrationForm(UserCreationForm):
         user.is_student = True
         user.save()
         student = Student.objects.create(user=user)
-        student.studentID = self.cleaned_data.get('studentID')
+     
         student.save()
         # student.interests.add(*self.cleaned_data.get('interests')) // Add other attributes of students here later
         return user
