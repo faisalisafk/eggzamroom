@@ -23,6 +23,7 @@ class Answer(models.Model):
 class SubmittedForm(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     form = models.ForeignKey(Form,on_delete=models.CASCADE,blank=True,null=True)
+    totalMarkObtain = models.IntegerField(null=True)
 
 
 class StudentWindowDetectionLog(models.Model):
