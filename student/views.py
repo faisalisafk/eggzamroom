@@ -49,37 +49,40 @@ def coursePage(request, coursePk):
 
 
 def examFormPage(request, examPk):
-    form=Form.objects.get(exam=Exam.objects.get(pk=examPk))
-    sf = SubmittedForm.objects.filter(student=request.user.pk,form = form)
-    exam = Exam.objects.get(pk=examPk)
-    if sf.exists():
-        context = {'form': form,
-                   'exam': exam,}
-        return render(request, 'student/already_submitted.html',context)
-    if(form.status==False):
-        return render(request,'student/notStarted.html')
+    try:    
+        form=Form.objects.get(exam=Exam.objects.get(pk=examPk))
+        sf = SubmittedForm.objects.filter(student=request.user.pk,form = form)
+        exam = Exam.objects.get(pk=examPk)
+        if sf.exists():
+            context = {'form': form,
+                    'exam': exam,}
+            return render(request, 'student/already_submitted.html',context)
+        if(form.status==False):
+            return render(request,'student/notStarted.html')
 
-    answered = Answer.objects.filter(student=request.user.pk,form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
-    if not answered.exists():
-        answered = []
-    try:        
-        form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
-        questions = form.questions.all()
-        totalQuestion = questions.count()
-        totalMark = 0
-        for q in questions:
-            totalMark = totalMark + q.question_score
-    except Form.DoesNotExist:
-        totalMark = 0
-        form = []
-        totalQuestion = 0
-    context = {'exam': exam,
-               'form': form,
-               'totalQuestion': totalQuestion,
-               'totalMark': totalMark,
-               'answered': answered,
-               }
-    return render(request, 'student/examForm.html', context)
+        answered = Answer.objects.filter(student=request.user.pk,form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
+        if not answered.exists():
+            answered = []
+        try:        
+            form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+            questions = form.questions.all()
+            totalQuestion = questions.count()
+            totalMark = 0
+            for q in questions:
+                totalMark = totalMark + q.question_score
+        except Form.DoesNotExist:
+            totalMark = 0
+            form = []
+            totalQuestion = 0
+        context = {'exam': exam,
+                'form': form,
+                'totalQuestion': totalQuestion,
+                'totalMark': totalMark,
+                'answered': answered,
+                }
+        return render(request, 'student/examForm.html', context)
+    except:
+        return render(request,'teacher/404.html')
 
 def saveAnswer(request, examPk):
     temp = Answer.objects.filter(student=request.user.pk,question=request.POST["questionId"])

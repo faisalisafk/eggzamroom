@@ -189,15 +189,18 @@ def toggleForm(request, formPk):
         
 def viewScore(request, examPk):
 
-    form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
-    log = StudentWindowDetectionLog.objects.filter(form=form)    
-    submitted = SubmittedForm.objects.filter(form=form)
-    students=[]
-    for s in submitted:
-        students.append(s.student.pk)
-    print(students)
-    context = {'form':form,
-                'submit':students,                 
-                'log':log}
+    try:
+        form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+        log = StudentWindowDetectionLog.objects.filter(form=form)    
+        submitted = SubmittedForm.objects.filter(form=form)
+        students=[]
+        for s in submitted:
+            students.append(s.student.pk)
+        print(students)
+        context = {'form':form,
+                    'submit':students,                 
+                    'log':log}
 
-    return render(request,'teacher/viewScore.html',context)
+        return render(request,'teacher/viewScore.html',context)
+    except:
+        return render(request,'teacher/404.html')
