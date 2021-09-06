@@ -37,7 +37,16 @@
             No
             {% endif %}  
       </td>
-
+        <td> {% if l.student.pk in submit %}
+            {% for s in submitted%}
+            {% if l.student.pk == s.student.pk%}
+            {{s.totalMarkObtain}}
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            Null
+            {% endif %}
+      </td>
   {% endfor %}
   </tbody>
 </table>
