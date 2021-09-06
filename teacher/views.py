@@ -205,3 +205,56 @@ def viewScore(request, examPk):
         return render(request,'teacher/viewScore.html',context)
     except:
         return render(request,'teacher/404.html')
+
+
+
+def deletecourse(request, coursePk):
+    if request.user.is_teacher:
+        deletedcourse = Course.objects.get(pk=coursePk)
+        deletedcourse.delete()
+
+        form = CourseForm()
+        userDetails = User.objects.get(pk=request.user.pk)
+        courseList = Course.objects.filter(teacher=request.user.pk)
+        context = {'user': userDetails,
+                   'course': courseList,
+                   'form': form}
+        return render(request, 'teacher/teacher_courses.html', context)
+
+
+def editCourse(request):
+    if request.user.is_teacher:
+        if request.method == 'POST':
+            coursePk = request.POST.get('courseId')
+            editdcourse = Course.objects.get(pk=coursePk)
+
+            title = request.POST['title']
+            subject = request.POST['subject']
+            editdcourse.title = title
+            editdcourse.subject = subject
+            editdcourse.save()
+
+        form = CourseForm()
+        userDetails = User.objects.get(pk=request.user.pk)
+        courseList = Course.objects.filter(teacher=request.user.pk)
+        context = {'user': userDetails,
+                   'course': courseList,
+                   'form': form}
+        return render(request, 'teacher/teacher_courses.html', context)
+    else:
+        return redirect('/login/')
+
+
+
+def deleteexam(request, examPk):
+    if request.user.is_teacher:
+        deletedexam = Exam.objects.get(pk=examPk)
+        coursePk = deletedexam.course.pk
+        deletedexam.delete()
+
+        form = ExamForm()
+        exams = Exam.objects.filter(course=coursePk)
+        context = {'exams': exams,
+                   'form': form,
+                   'coursePk': coursePk}
+        return render(request, 'teacher/exams.html', context)
