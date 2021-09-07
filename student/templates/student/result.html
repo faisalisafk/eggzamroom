@@ -1,0 +1,108 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block title %}Exam Result{% endblock %}
+    {% block link %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    {% endblock %}
+
+{%block popup%}
+
+{%endblock%}
+
+
+
+{% block body %}
+
+
+<div class="container" mt-5>
+{% csrf_token %}
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10 col-lg-10">
+            <div onselectstart="return false" class="border">
+                <div class="question bg-info p-3 border-bottom">
+                    <div class="d-flex justify-content-center">
+                        <h1 >Exam Report</h1>
+                    </div>
+                    <div class="d-flex flex-row justify-content-between align-items-center mcq">
+                        <h4>{{exam.title}}</h4>
+                        <h4 id="total" value="{{totalQuestion}}">Total Questions: {{totalQuestion}}</h4>
+                        <h4>Total Mark Obtain: {{totalMarkObtain}}/{{totalMark}}</h4>
+                    </div>
+                </div>
+
+                {% for q in form.questions.all %}
+
+                <div class="question bg-light p-3 border-bottom" id="{{forloop.counter}}">
+
+                    <div class="d-flex flex-row align-items-center question-title">
+                        <div class="col-1">
+                             <h2 class="text-danger">Q{{forloop.counter}}.</h2>
+                        </div>
+                        <div class="col-8">
+                            <h4>{{q.question_title}}</h4>
+                        </div>
+                        <div style ="margin-left: auto;" class="col-auto">
+                            <h6>Points: {{q.question_score}}</h6>
+                        </div>
+                    </div>
+                    <br>
+                    {% for choice in q.choices.all %}
+                    <div style="font-size: 120%;" class="ans ml-2">
+                        <label class="radio">
+                        <input type="radio" disabled name="{{q.id}}" value="{{choice.id}}"
+                        {% for a in answered %}
+                            {% if a.givenAnswer.id == choice.id%}
+                                checked
+                            {% endif %}
+                        {% endfor %}>
+
+                        <span {% for a in answered %}
+                                {% if a.givenAnswer.id == choice.id%}
+                                    {% if choice.is_answer%} style="background-color: #88E789" {% endif %}
+                              {% if choice.is_answer == False %} style="background-color: #FF7C64" {% endif %}
+                              {% endif %}
+                        {% endfor %}>  {{choice.question_choice}} </span>
+
+
+                        </label>
+                    </div>
+                    {% endfor %}
+                    <br>
+                    <div class="myDiv">
+                        {% for ans in rightAnswer %}
+                            {% if ans.question.id == q.id%}
+                                <h6>Right Answer: {{ans.question_choice}}</h6>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+                <br>
+                {% endfor %}
+             </div>
+        </div>
+    </div>
+
+
+    <!--<button id="btnClick">Click</button>-->
+</div>
+
+
+
+    <style>
+    .myDiv {
+      border: 2px outset #61D3FF;
+      background-color: lightblue;
+      text-align: left;
+    }
+    </style>
+
+{% endblock %}
+
+
+

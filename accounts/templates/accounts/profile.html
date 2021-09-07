@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Profile</title>
+    {% include 'accounts/header.html' %}
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+</head>
+
+<style>
+.card {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 34, 51, 0.1);
+    box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
+    border-radius: 0.15rem;
+    margin: 0 auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 10px; /* Added */
+}
+
+.card-header {
+    background-color: #ffffff;
+    text-align: center;
+}
+
+</style>
+<body>
+
+<section id="profile">
+ <style type="text/css">
+        .main{
+            min-height: 70vh;
+            height: 100%;
+            }
+    </style>
+    <div class="container main">
+        <div class="child">
+            <div class="col-auto mb-4">
+                <div class="card" style="width: 30vw; height: 75hw;">
+                    <div class="card-header avatar">
+                    <img class="rounded-circle" src="http://lorempixel.com/100/100/people/9/" alt="Card image cap">
+                        <p class="card-title text-center" style="font-weight: bold">{{user.username}}</p>
+                        <p class="text-center" style="font-weight: 10">
+                            {% if user.is_student %} Student {% else %} Teacher {% endif %}</p>
+                    </div>
+                  <div class="card-body">
+                      <p class="card-text">First Name: {{user.firstName}}</p>
+                      <p class="card-text">Last Name: {{user.lastName}}</p>
+                      <p class="card-text">Email: {{user.email}}</p>
+                      <a href="{% url 'password_change' %}">Change password</a>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+{% include 'accounts/footer.html' %}
+</body>
+</html>
