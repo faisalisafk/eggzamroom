@@ -97,7 +97,7 @@
         </button>
       </div>
 
-        <form action="/teacher/editCourse/" method="post">
+        <form action="/teacher/editCourse/{{id}}" method="post">
       <div class="modal-body">
 
             {% csrf_token %}
@@ -107,7 +107,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <input type="submit" value="Edit Course" class="btn btn-primary" id="editSubmit" data-id="">
+          <input type="submit" value="Edit Course" class="btn btn-primary">
       </div>
         </form>
     </div>

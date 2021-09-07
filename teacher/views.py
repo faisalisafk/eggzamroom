@@ -221,31 +221,6 @@ def deletecourse(request, coursePk):
                    'form': form}
         return render(request, 'teacher/teacher_courses.html', context)
 
-
-def editCourse(request):
-    if request.user.is_teacher:
-        if request.method == 'POST':
-            coursePk = request.POST.get('courseId')
-            editdcourse = Course.objects.get(pk=coursePk)
-
-            title = request.POST['title']
-            subject = request.POST['subject']
-            editdcourse.title = title
-            editdcourse.subject = subject
-            editdcourse.save()
-
-        form = CourseForm()
-        userDetails = User.objects.get(pk=request.user.pk)
-        courseList = Course.objects.filter(teacher=request.user.pk)
-        context = {'user': userDetails,
-                   'course': courseList,
-                   'form': form}
-        return render(request, 'teacher/teacher_courses.html', context)
-    else:
-        return redirect('/login/')
-
-
-
 def deleteexam(request, examPk):
     if request.user.is_teacher:
         deletedexam = Exam.objects.get(pk=examPk)
@@ -258,3 +233,25 @@ def deleteexam(request, examPk):
                    'form': form,
                    'coursePk': coursePk}
         return render(request, 'teacher/exams.html', context)
+
+def editCourse(request, coursePk):
+    if request.user.is_authenticated:
+        if request.user.is_teacher:
+            if request.method == 'POST':
+                form = CourseForm(request.POST)
+                if form.is_valid():
+                    title = form.cleaned_data['title']
+                    subject = form.cleaned_data['subject']
+                    teacher = Teacher.objects.get(pk=request.user.pk)
+                    course = Course.objects.get(pk=coursePk)
+                    course.title = title
+                    course.subject = subject
+                    course.save()
+                    return redirect('/teacher/')
+                else:
+                    return HttpResponse("<h1>Invalid form</h1>")
+
+        else:
+            return redirect('/logout/')
+    else:
+        return redirect('/login/')
