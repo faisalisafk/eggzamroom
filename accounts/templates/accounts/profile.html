@@ -9,6 +9,11 @@
 </head>
 
 <style>
+.darkmode--activated .card {
+  background-color: black;
+  color: white;
+  box-shadow: 4px 4px 10px 4px rgba(100, 34, 51, 0.5), 0px 4px 10px 10px rgba(100, 34, 51, 0.5);
+}
 .card {
     background-color: #ffffff;
     border: 1px solid rgba(0, 34, 51, 0.1);
@@ -18,11 +23,14 @@
     float: none; /* Added */
     margin-bottom: 10px; /* Added */
 }
-
+.darkmode--activated .card-header {
+  background-color: black;
+  color: white;
+  box-shadow: 1px 1px 2px 2px rgba(100, 34, 51, 0.5), 1px 1px 2px 2px rgba(100, 34, 51, 0.5);
+}
 .card-header {
     background-color: #ffffff;
     text-align: center;
-}
 
 </style>
 <body>
@@ -59,4 +67,24 @@
 </section>
 {% include 'accounts/footer.html' %}
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script>
+        const options = {
+  bottom: '64px', // default: '32px'
+  right: 'unset', // default: '32px'
+  left: '32px', // default: 'unset'
+  time: '0.5s', // default: '0.3s'
+  mixColor: '#fff', // default: '#fff'
+  backgroundColor: '#fff',  // default: '#fff'
+  buttonColorDark: '#100f2c',  // default: '#100f2c'
+  buttonColorLight: '#fff', // default: '#fff'
+  saveInCookies: true, // default: true,
+  label: '🌓', // default: ''
+  autoMatchOsTheme: true // default: true
+}
+
+const darkmode = new Darkmode(options);
+darkmode.showWidget();
+</script>
 </html>
