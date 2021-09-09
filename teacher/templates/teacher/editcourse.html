@@ -32,17 +32,11 @@
 </style>
 
 <body>
-<form method="POST" class="form-edit">{% csrf_token %}
-  <h1 class="h3 mb-3 font-weight-normal">Update Course Information</h1>
-    <input name="course_title" class="form-control" placeholder="Course Title" required="true">
-    <input name="subject_name" class="form-control" placeholder="Subject Name" required="true">
-
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
-</form>
-
 
 <form method="POST" class="form-edit">{% csrf_token %}
+  <h1 class="h3 mb-3 font-weight-normal">Update Information</h1>
   <div class="form-label-group">
+      <br>
       {% for field in form %}
     <!--<input type="text" name="firstName" id="inputFirstName" class="form-control" placeholder="First Name"> -->
       <p>
