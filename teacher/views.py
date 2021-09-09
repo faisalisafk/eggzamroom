@@ -234,27 +234,7 @@ def deleteexam(request, examPk):
                    'coursePk': coursePk}
         return render(request, 'teacher/exams.html', context)
 
-def editCourse(request, coursePk):
-    if request.user.is_authenticated:
-        if request.user.is_teacher:
-            if request.method == 'POST':
-                form = CourseForm(request.POST)
-                if form.is_valid():
-                    title = form.cleaned_data['title']
-                    subject = form.cleaned_data['subject']
-                    teacher = Teacher.objects.get(pk=request.user.pk)
-                    course = Course.objects.get(pk=coursePk)
-                    course.title = title
-                    course.subject = subject
-                    course.save()
-                    return redirect('/teacher/')
-                else:
-                    return HttpResponse("<h1>Invalid form</h1>")
 
-        else:
-            return redirect('/logout/')
-    else:
-        return redirect('/login/')
 
 def editcourse(request, coursePk):
     if request.method == 'POST':
@@ -276,3 +256,28 @@ def editcourse(request, coursePk):
         context = {'course': course,
                    'form': form}
         return render(request, 'teacher/editcourse.html', context)
+
+
+
+def editexam(request, examPk):
+    if request.method == 'POST':
+        form = ExamForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            exam = Exam.objects.get(pk=examPk)
+            course = Course.objects.get(exam=exam)
+            #coursePk = course.pk
+            exam.title = title
+            exam.description = description
+            exam.save()
+            return redirect('/teacher/')
+        else:
+            return HttpResponse("<h1>Invalid form</h1>")
+
+    else:
+        form = ExamForm()
+        exam = Exam.objects.get(pk=examPk)
+        context = {'exam': exam,
+                   'form': form}
+        return render(request, 'teacher/editexam.html', context)

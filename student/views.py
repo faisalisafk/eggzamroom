@@ -136,15 +136,6 @@ def result(request, examPk):
         for a in answered:
             if a.givenAnswer.is_answer and a.question == i:
                 totalMarkObtain = totalMarkObtain + i.question_score
-        #answer = Answer.objects.get(student=Student.objects.get(pk=request.user.pk), form=form, question=i)
-
-        #choice = Choice.objects.get(question=i, )
-
-        #Answer.objects.get(student=request.user.pk, question=Question.objects.get(id=i.id))
-        #choice = Choice.objects.get(student=student, question=Question.objects.get(id=i.id))
-        #choice = answer.givenAnswer
-        #if choice.is_answer:
-         #   totalMarkObtain = totalMarkObtain + i.question_score
 
     context = {'exam': exam,
                'form': form,
