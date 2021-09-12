@@ -1,0 +1,58 @@
+{% extends "./base.html" %}
+
+
+{% block body %}
+
+{%block popup%}
+{%endblock%}
+<style type="text/css">
+  .form-edit {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  }
+  .form-sedit .checkbox {
+    font-weight: 400;
+  }
+  .form-edit .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-edit .form-control:focus {
+    z-index: 2;
+  }
+
+  .h3{
+    text-align: center;
+  }
+</style>
+
+<body>
+
+<form method="POST" class="form-edit">{% csrf_token %}
+  <h1 class="h3 mb-3 font-weight-normal">Update Information</h1>
+  <div class="form-label-group">
+      <br>
+      {% for field in form %}
+      <p>
+        {{field.label_tag}}
+        {{field}}
+
+        {% if field.errors %}
+            <small style="color: red;">{{field.errors}}</small>
+        {% endif %}
+      </p>
+      {% endfor %}
+  </div>
+
+   <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+
+</form>
+
+</body>
+
+{% endblock %}

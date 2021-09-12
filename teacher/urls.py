@@ -17,4 +17,8 @@ urlpatterns = [
     path('exam/<int:examPk>/delQuestion', views.delQuestion, name='delQuestion'),
     path('<int:formPk>/toggle',views.toggleForm, name='toggleForm'),
     path('<int:examPk>/viewScore',views.viewScore, name='viewScore'),
+    path('deletecourse/<int:coursePk>/', views.deletecourse, name='deletecourse'),
+    path('deleteexam/<int:examPk>/', views.deleteexam, name='deleteexam'),
+    path('editcourse/<int:coursePk>/', views.editcourse, name='editcourse'),
+    path('editexam/<int:examPk>/', views.editexam, name='editexam'),
 ]

@@ -208,4 +208,80 @@ def viewScore(request, examPk):
 
         return render(request, 'teacher/viewScore.html', context)
     except:
-        return render(request, 'teacher/404.html')
+        return render(request,'teacher/404.html')
+
+
+
+def deletecourse(request, coursePk):
+    if request.user.is_teacher:
+        deletedcourse = Course.objects.get(pk=coursePk)
+        deletedcourse.delete()
+
+        form = CourseForm()
+        userDetails = User.objects.get(pk=request.user.pk)
+        courseList = Course.objects.filter(teacher=request.user.pk)
+        context = {'user': userDetails,
+                   'course': courseList,
+                   'form': form}
+        return render(request, 'teacher/teacher_courses.html', context)
+
+def deleteexam(request, examPk):
+    if request.user.is_teacher:
+        deletedexam = Exam.objects.get(pk=examPk)
+        coursePk = deletedexam.course.pk
+        deletedexam.delete()
+
+        form = ExamForm()
+        exams = Exam.objects.filter(course=coursePk)
+        context = {'exams': exams,
+                   'form': form,
+                   'coursePk': coursePk}
+        return render(request, 'teacher/exams.html', context)
+
+
+
+def editcourse(request, coursePk):
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            subject = form.cleaned_data['subject']
+            course = Course.objects.get(pk=coursePk)
+            course.title = title
+            course.subject = subject
+            course.save()
+            return redirect('/teacher/')
+        else:
+            return HttpResponse("<h1>Invalid form</h1>")
+
+    else:
+        form = CourseForm()
+        course = Course.objects.get(pk=coursePk)
+        context = {'course': course,
+                   'form': form}
+        return render(request, 'teacher/editcourse.html', context)
+
+
+
+def editexam(request, examPk):
+    if request.method == 'POST':
+        form = ExamForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            exam = Exam.objects.get(pk=examPk)
+            course = Course.objects.get(exam=exam)
+            #coursePk = course.pk
+            exam.title = title
+            exam.description = description
+            exam.save()
+            return redirect('/teacher/')
+        else:
+            return HttpResponse("<h1>Invalid form</h1>")
+
+    else:
+        form = ExamForm()
+        exam = Exam.objects.get(pk=examPk)
+        context = {'exam': exam,
+                   'form': form}
+        return render(request, 'teacher/editexam.html', context)
