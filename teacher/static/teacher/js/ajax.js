@@ -230,6 +230,7 @@ function HideStudent(){
         $("#c"+i).hide();
         $("#d"+i).hide();
         $("#e"+i).hide();
+        $("#f"+i).hide();
         //console.log(i);
     }
 }
