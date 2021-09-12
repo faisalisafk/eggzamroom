@@ -384,8 +384,8 @@ body{
 }
 
 .form-option-icon{
-    width: 2rem;
-    margin: 5px;
+    width: 3rem;
+    margin: 10px;
     cursor: pointer;
     display: block;
 }
