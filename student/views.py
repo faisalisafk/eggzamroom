@@ -103,7 +103,9 @@ def saveAnswer(request, examPk):
 def submit(request, formPk):
     form = Form.objects.get(pk=formPk)
     newSubmittedForm = SubmittedForm(student=Student.objects.get(pk=request.user.pk), form=form)
-    newSubmittedForm.save()
+    questions = form.questions.all()
+    totalMarkObtain = 0
+
     # this part is for adding a detection log of the student, but as 0 second entry. For loading them in the teacher
     # view_score panel
     student = Student.objects.get(pk=request.user.pk)
@@ -116,6 +118,15 @@ def submit(request, formPk):
                                         totalSeconds=0)
         log.save()
 
+    answered = Answer.objects.filter(student=request.user.pk, form=form)
+
+    for i in questions:
+        for a in answered:
+            if a.givenAnswer.is_answer and a.question == i:
+                totalMarkObtain = totalMarkObtain + i.question_score
+
+    newSubmittedForm.totalMarkObtain = totalMarkObtain
+    newSubmittedForm.save()
     context = {'form': form, }
     return render(request, 'student/success.html', context)
 
@@ -140,15 +151,6 @@ def result(request, examPk):
         for a in answered:
             if a.givenAnswer.is_answer and a.question == i:
                 totalMarkObtain = totalMarkObtain + i.question_score
-        # answer = Answer.objects.get(student=Student.objects.get(pk=request.user.pk), form=form, question=i)
-
-        # choice = Choice.objects.get(question=i, )
-
-        # Answer.objects.get(student=request.user.pk, question=Question.objects.get(id=i.id))
-        # choice = Choice.objects.get(student=student, question=Question.objects.get(id=i.id))
-        # choice = answer.givenAnswer
-        # if choice.is_answer:
-        #   totalMarkObtain = totalMarkObtain + i.question_score
 
     context = {'exam': exam,
                'form': form,
