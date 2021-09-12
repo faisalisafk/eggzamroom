@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirec
 import pickle
 from django.apps import apps
 from accounts.models import User, Teacher
-from .models import Course, Exam, Form, Question, Choice 
-from student.models import  Student , StudentWindowDetectionLog, SubmittedForm
+from .models import Course, Exam, Form, Question, Choice
+from student.models import Student, StudentWindowDetectionLog, SubmittedForm
 from .forms import CourseForm, ExamForm
 
 
@@ -84,6 +84,7 @@ def saveFormTitle(request, examPk):
     else:
         return JsonResponse({'status': 0})
 
+
 def saveFormDes(request, examPk):
     if request.method == 'POST':
         des = request.POST["description"]
@@ -104,6 +105,7 @@ def saveQuestion(request, examPk):
     else:
         return JsonResponse({'status': 0})
 
+
 def saveMark(request, examPk):
     if request.method == 'POST':
         myId = request.POST["quesId"]
@@ -113,6 +115,7 @@ def saveMark(request, examPk):
         return JsonResponse({'status': 'Save'})
     else:
         return JsonResponse({'status': 0})
+
 
 def editOption(request, examPk):
     if request.method == 'POST':
@@ -152,14 +155,15 @@ def addOption(request, examPk):
 def addQuestion(request, examPk):
     if request.method == 'POST':
         exam = Exam.objects.get(pk=examPk)
-        form = Form.objects.get(exam=exam)       
+        form = Form.objects.get(exam=exam)
         added_question = Question(question_title="New Question", question_type="mcq", question_score="1", form=form)
         added_question.save()
-        tempPk = added_question.pk 
-       
-        return JsonResponse({'status': 'Save','newques':tempPk})
+        tempPk = added_question.pk
+
+        return JsonResponse({'status': 'Save', 'newques': tempPk})
     else:
         return JsonResponse({'status': 0})
+
 
 def delQuestion(request, examPk):
     if request.method == 'POST':
@@ -170,38 +174,38 @@ def delQuestion(request, examPk):
     else:
         return JsonResponse({'status': 0})
 
-def toggleForm(request, formPk):   
+
+def toggleForm(request, formPk):
     form = Form.objects.get(pk=formPk)
-    exam = Exam.objects.get(pk =form.exam.pk)
+    exam = Exam.objects.get(pk=form.exam.pk)
     if form.status:
         form.status = False
-        form.save()   
+        form.save()
         context = {'exam': exam,
-               'form': form}
+                   'form': form}
         return render(request, 'teacher/form.html', context)
-        
-    else :
+
+    else:
         form.status = True
         form.save()
         context = {'exam': exam,
-               'form': form}
+                   'form': form}
         return render(request, 'teacher/form.html', context)
-        
-def viewScore(request, examPk):
 
+
+def viewScore(request, examPk):
     try:
         form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
-        log = StudentWindowDetectionLog.objects.filter(form=form)    
+        log = StudentWindowDetectionLog.objects.filter(form=form)
         submitted = SubmittedForm.objects.filter(form=form)
-        students=[]
+        students = []
         for s in submitted:
             students.append(s.student.pk)
         print(students)
-        context = {'form':form,
-                    'submit':students,                 
-                    'log':log,
-                   'submitted': submitted,}
+        context = {'form': form,
+                   'submit': students,
+                   'log': log}
 
-        return render(request,'teacher/viewScore.html',context)
+        return render(request, 'teacher/viewScore.html', context)
     except:
-        return render(request,'teacher/404.html')
+        return render(request, 'teacher/404.html')
