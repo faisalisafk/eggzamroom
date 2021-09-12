@@ -245,6 +245,7 @@ function ShowStudent(page){
             $("#c"+i).show();
             $("#d"+i).show();
             $("#e"+i).show();
+            $("#f"+i).show();
             //console.log(i);
         }
     }
@@ -257,6 +258,7 @@ function ShowStudent(page){
             $("#c"+i).show();
             $("#d"+i).show();
             $("#e"+i).show();
+            $("#f"+i).show();
             //console.log(i);
         }
     }

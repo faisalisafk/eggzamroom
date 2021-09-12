@@ -204,7 +204,8 @@ def viewScore(request, examPk):
         print(students)
         context = {'form': form,
                    'submit': students,
-                   'log': log}
+                   'log': log,
+                   'submitted': submitted, }
 
         return render(request, 'teacher/viewScore.html', context)
     except:
