@@ -2,6 +2,13 @@
 
 
 {% block body %}
+<style>
+    .darkmode--activated .card {
+  background-color: black;
+  color: white;
+  box-shadow: 4px 4px 10px 4px rgba(0, 34, 100, 0.3), 0px 4px 10px 10px rgba(0, 34, 100, 0.3);
+}
+</style>
 {% if user.teacher %}
 <h3  style="margin-left: 25px;">Courses</h3>
 {% endif %}
@@ -37,6 +44,14 @@
                   <p class="card-text text-primary">Course subject : {{c.subject}}</p>
                   <p class="card-text text-primary">Instructor : {{c.teacher}}</p>
                   <p class="card-text text-primary">primary key : {{c.pk}}</p>
+                  <div class="dropdown">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Edit/Delete </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/teacher/editcourse/{{c.pk}}" >Edit</a>
+                        <a class="dropdown-item" href="/teacher/deletecourse/{{c.pk}}">Delete</a>
+
+                      </div>
+                    </div>
               </div>
             </div>
         </div>
@@ -78,7 +93,6 @@
 
 
 {% endblock %}
-
 
 
 

@@ -5,6 +5,14 @@
 {%endblock%}
 
 {% block body %}
+<style>
+    .darkmode--activated .card {
+  background-color: black;
+  color: white;
+  box-shadow: 4px 4px 10px 4px rgba(0, 34, 100, 0.3), 0px 4px 10px 10px rgba(0, 34, 100, 0.3);
+}
+</style>
+
 {% if user.teacher %}
 <h3  style="margin-left: 25px;">Exams</h3>
 {% endif %}
@@ -38,6 +46,16 @@
                   <p class="card-text">Exam Course: {{e.course.title}}</p>
                   <p class="card-text">Exam description: {{e.description}} </p>
                   <a class="card-text" href="/teacher/{{e.pk}}/viewScore">View Score</a>
+
+                  <div class="dropdown">
+                      <br>
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Edit/Delete </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/teacher/editexam/{{e.pk}}">Edit</a>
+                        <a class="dropdown-item" href="/teacher/deleteexam/{{e.pk}}">Delete</a>
+
+                      </div>
+                  </div>
               </div>
             </div>
         </div>

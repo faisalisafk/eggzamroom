@@ -190,3 +190,79 @@ $(".starting").on('click', '.btn-danger', function(){
     });
    // $(this).parent().parent().parent().remove();    
 })
+
+
+
+/*function loadlink(){
+    var pageURL = $(location).attr("href");
+    $('#table').load(pageURL + #table,function () {
+         $(this).unwrap();
+    });
+    //alert("interval!");
+}
+
+loadlink(); // This will run on page load
+setInterval(function(){
+    loadlink() // this will run after every 5 seconds
+}, 5000); */
+
+
+$('#pagination-demo').twbsPagination({
+    totalPages: totalbtn,
+    visiblePages: totalbtn,
+    next: 'Next',
+    prev: 'Prev',
+    onPageClick: function (event, page) {
+        window.value = page;
+        //fetch content and render here
+        $('#page-content').text('Page ' + page) + ' content here';
+        //$("#"+page).removeAttribute("hidden");
+        HideStudent();
+        ShowStudent(page);
+    }
+});
+
+function HideStudent(){
+    for(let i = 1; i <= total; i++)
+    {
+        $("#a"+i).hide();
+        $("#b"+i).hide();
+        $("#c"+i).hide();
+        $("#d"+i).hide();
+        $("#e"+i).hide();
+        $("#f"+i).hide();
+        //console.log(i);
+    }
+}
+
+function ShowStudent(page){
+    //$("#"+x).show();
+    if(page===1)
+    {
+        for(let i = 1; i <= page + 9; i++)
+        {
+            $("#a"+i).show();
+            $("#b"+i).show();
+            $("#c"+i).show();
+            $("#d"+i).show();
+            $("#e"+i).show();
+            $("#f"+i).show();
+            //console.log(i);
+        }
+    }
+    else
+    {
+        for(let i = (page-1)*10 + 1; i <= page * 10 ; i++)
+        {
+            $("#a"+i).show();
+            $("#b"+i).show();
+            $("#c"+i).show();
+            $("#d"+i).show();
+            $("#e"+i).show();
+            $("#f"+i).show();
+            //console.log(i);
+        }
+    }
+
+
+}

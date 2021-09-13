@@ -7,7 +7,7 @@ from django.http.response import JsonResponse
 from django.apps import apps
 from accounts.models import User
 from teacher.models import Choice, Course, Exam, Form, Question
-from student.models import Answer, Student ,SubmittedForm, StudentWindowDetectionLog
+from student.models import Answer, Student, SubmittedForm, StudentWindowDetectionLog
 from .forms import CourseJoinForm
 from teacher.forms import ExamForm
 
@@ -49,21 +49,22 @@ def coursePage(request, coursePk):
 
 
 def examFormPage(request, examPk):
-    try:    
-        form=Form.objects.get(exam=Exam.objects.get(pk=examPk))
-        sf = SubmittedForm.objects.filter(student=request.user.pk,form = form)
+    try:
+        form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+        sf = SubmittedForm.objects.filter(student=request.user.pk, form=form)
         exam = Exam.objects.get(pk=examPk)
         if sf.exists():
             context = {'form': form,
-                    'exam': exam,}
-            return render(request, 'student/already_submitted.html',context)
-        if(form.status==False):
-            return render(request,'student/notStarted.html')
+                       'exam': exam, }
+            return render(request, 'student/already_submitted.html', context)
+        if (form.status == False):
+            return render(request, 'student/notStarted.html')
 
-        answered = Answer.objects.filter(student=request.user.pk,form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
+        answered = Answer.objects.filter(student=request.user.pk,
+                                         form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
         if not answered.exists():
             answered = []
-        try:        
+        try:
             form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
             questions = form.questions.all()
             totalQuestion = questions.count()
@@ -75,33 +76,47 @@ def examFormPage(request, examPk):
             form = []
             totalQuestion = 0
         context = {'exam': exam,
-                'form': form,
-                'totalQuestion': totalQuestion,
-                'totalMark': totalMark,
-                'answered': answered,
-                }
+                   'form': form,
+                   'totalQuestion': totalQuestion,
+                   'totalMark': totalMark,
+                   'answered': answered,
+                   }
         return render(request, 'student/examForm.html', context)
     except:
-        return render(request,'teacher/404.html')
+        return render(request, 'teacher/404.html')
+
 
 def saveAnswer(request, examPk):
-    temp = Answer.objects.filter(student=request.user.pk,question=request.POST["questionId"])
+    temp = Answer.objects.filter(student=request.user.pk, question=request.POST["questionId"])
     if temp.exists():
-        temp.update(givenAnswer=request.POST["optionChecked"]) 
+        temp.update(givenAnswer=request.POST["optionChecked"])
     else:
-        s = Student.objects.get(pk = request.user.pk)
-        f = Form.objects.get(exam = Exam.objects.get(pk=examPk))
-        q = Question.objects.get(pk = request.POST["questionId"])
-        c = Choice.objects.get(pk = request.POST["optionChecked"])
-        newAnswer = Answer(student=s,form=f,question=q,givenAnswer=c)
+        s = Student.objects.get(pk=request.user.pk)
+        f = Form.objects.get(exam=Exam.objects.get(pk=examPk))
+        q = Question.objects.get(pk=request.POST["questionId"])
+        c = Choice.objects.get(pk=request.POST["optionChecked"])
+        newAnswer = Answer(student=s, form=f, question=q, givenAnswer=c)
         newAnswer.save()
     return JsonResponse({'status': 'Save'})
 
+
 def submit(request, formPk):
-    form = Form.objects.get(pk = formPk)
-    newSubmittedForm = SubmittedForm(student=Student.objects.get(pk = request.user.pk),form = form)
+    form = Form.objects.get(pk=formPk)
+    newSubmittedForm = SubmittedForm(student=Student.objects.get(pk=request.user.pk), form=form)
     questions = form.questions.all()
     totalMarkObtain = 0
+
+    # this part is for adding a detection log of the student, but as 0 second entry. For loading them in the teacher
+    # view_score panel
+    student = Student.objects.get(pk=request.user.pk)
+    log = StudentWindowDetectionLog.objects.filter(student=student, form=form)
+
+    if log.exists():
+        pass
+    else:
+        log = StudentWindowDetectionLog(student=student, form=form, start_time="", end_time="",
+                                        totalSeconds=0)
+        log.save()
 
     answered = Answer.objects.filter(student=request.user.pk, form=form)
 
@@ -112,8 +127,9 @@ def submit(request, formPk):
 
     newSubmittedForm.totalMarkObtain = totalMarkObtain
     newSubmittedForm.save()
-    context = {'form': form,}
-    return render(request, 'student/success.html',context)
+    context = {'form': form, }
+    return render(request, 'student/success.html', context)
+
 
 def result(request, examPk):
     exam = Exam.objects.get(pk=examPk)
@@ -126,7 +142,6 @@ def result(request, examPk):
     answered = Answer.objects.filter(student=request.user.pk, form=Form.objects.get(exam=Exam.objects.get(pk=examPk)))
     rightAnswer = []
 
-
     for i in questions:
         choices = Choice.objects.filter(question=i)
         for c in choices:
@@ -136,15 +151,6 @@ def result(request, examPk):
         for a in answered:
             if a.givenAnswer.is_answer and a.question == i:
                 totalMarkObtain = totalMarkObtain + i.question_score
-        #answer = Answer.objects.get(student=Student.objects.get(pk=request.user.pk), form=form, question=i)
-
-        #choice = Choice.objects.get(question=i, )
-
-        #Answer.objects.get(student=request.user.pk, question=Question.objects.get(id=i.id))
-        #choice = Choice.objects.get(student=student, question=Question.objects.get(id=i.id))
-        #choice = answer.givenAnswer
-        #if choice.is_answer:
-         #   totalMarkObtain = totalMarkObtain + i.question_score
 
     context = {'exam': exam,
                'form': form,
@@ -158,49 +164,48 @@ def result(request, examPk):
 
 
 def WindowDetectionLog(request, examPk):
-    student = Student.objects.get(pk = request.user.pk)
+    student = Student.objects.get(pk=request.user.pk)
     form = Form.objects.get(exam=Exam.objects.get(pk=examPk))
-    log = StudentWindowDetectionLog.objects.filter(student=student,form=form)
+    log = StudentWindowDetectionLog.objects.filter(student=student, form=form)
     focused = request.POST.get("focused", 0)
-    blurred = request.POST.get("blurred", 0)  
+    blurred = request.POST.get("blurred", 0)
 
+    if log.exists():
 
-    if log.exists():   
-        
-        if blurred:       
+        if blurred:
             x = log[0].start_time + " <-> " + blurred
-            log.update(start_time = x)
-    
+            log.update(start_time=x)
+
         elif focused:
             temp = log[0].start_time
-            temp = temp.rsplit("<->",1)[1]
+            temp = temp.rsplit("<->", 1)[1]
             temp = temp.split(",")[1]
             temp = temp.split(":")
-            hour,minute,second = float(temp[0]),float(temp[1]),float(temp[2].split(" ")[0])
-            
+            hour, minute, second = float(temp[0]), float(temp[1]), float(temp[2].split(" ")[0])
+
             foc = focused.split(",")[1]
             foc = foc.split(":")
-            h,m,s = float(foc[0]),float(foc[1]),float(foc[2].split(" ")[0])
+            h, m, s = float(foc[0]), float(foc[1]), float(foc[2].split(" ")[0])
 
-            total = int((h-hour) * 3600 + (m - minute) * 60 + (s - second))
+            total = int((h - hour) * 3600 + (m - minute) * 60 + (s - second))
 
-            y =log[0].end_time + " <-> " + focused
-            log.update(end_time = y)
+            y = log[0].end_time + " <-> " + focused
+            log.update(end_time=y)
 
             z = log[0].totalSeconds + total
             log.update(totalSeconds=z)
-            
+
 
     else:
-        if blurred:           
-            log = StudentWindowDetectionLog(student=student, form=form, start_time= " <-> " +blurred, end_time="",totalSeconds=0)
+        if blurred:
+            log = StudentWindowDetectionLog(student=student, form=form, start_time=" <-> " + blurred, end_time="",
+                                            totalSeconds=0)
             log.save()
-            
-        
+
+
         elif focused:
             log = StudentWindowDetectionLog(student=student, form=form, start_time="", end_time=focused)
             log.save()
-            
 
     return JsonResponse({'status': 'Save'})
 
