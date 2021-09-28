@@ -24,7 +24,7 @@ SECRET_KEY = '_98qbh(ch2+wus$cpqoic9s_s(sl^z67sgq5pl-8cx!$b=y*(d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False  
 
-ALLOWED_HOSTS = ['https://eggzamroom.herokuapp.com','127.0.0.1:8000']
+ALLOWED_HOSTS = ['eggzamroom.herokuapp.com','127.0.0.1:8000']
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # only for development mode, wont work in
