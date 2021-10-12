@@ -210,3 +210,6 @@ def WindowDetectionLog(request, examPk):
     return JsonResponse({'status': 'Save'})
 
     # StudentWindowDetectionLog(student=student, form=form)
+
+def jsDisable(request):
+    return render(request, 'student/jsDisable.html')

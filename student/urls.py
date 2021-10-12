@@ -10,4 +10,5 @@ urlpatterns = [
     path('exam/<int:examPk>/detectionlog', views.WindowDetectionLog, name='detectionlog'),
     path('<int:formPk>/submit',views.submit,name='submit'),
     path('<int:examPk>/result', views.result, name='result'),
+    path('jsDisable', views.jsDisable, name='jsDisable'),
 ]
