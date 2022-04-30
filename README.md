@@ -1,3 +1,6 @@
+<div align="center">
+    <h1>Eggzamrrom</h1>
+</div>
 <p><strong>INTRODUCTION</strong></p>
 <p>The online exam room is a platform-based dual user system for students and teachers. This system is applicable for proctoring online examinations with ease for the teachers and having the flexibility of attempting exams effortlessly by students.<p>
 
@@ -33,12 +36,12 @@
   </ul>
 
 <p><strong>Frontend</strong></p>
-<p>For the front end, we will be using HTML, CSS, JavaScript. This enables cross-platform development which allows the web app to be compatible with both PC and mobile platforms. It also gives a more premium user interface and smoother experience.</p>
+<p>For the front end, used HTML, CSS, JavaScript. This enables cross-platform development which allows the web app to be compatible with both PC and mobile platforms. It also gives a more premium user interface and smoother experience.</p>
 
 <p><strong>Backend</strong></p>
-<p>Python's web framework - Django will be used as the website's backend. Django ensures rapid development providing high security and maintanence. It also helps us to simultaneously work on different app section of the project.</p>
+<p>Python's web framework - Django was used as the website's backend. Django ensures rapid development providing high security and maintanence. It also helps us to simultaneously work on different app section of the project.</p>
 
 <p><strong>Database</strong></p>
-<p>We will be using Django default SQLite database and queryset to operate our backend with ease.</p>
+<p>Used Django default SQLite database and queryset to operate our backend with ease.</p>
 
 
