@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>Eggzamrrom</h1>
+    <h1>Eggzamroom</h1>
 </div>
 <p><strong>INTRODUCTION</strong></p>
 <p>The online exam room is a platform-based dual user system for students and teachers. This system is applicable for proctoring online examinations with ease for the teachers and having the flexibility of attempting exams effortlessly by students.<p>
